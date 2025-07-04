@@ -48,7 +48,7 @@ export const learningContentData: LearningContent[] = [
     skillLevel: "Advanced",
     type: "Video",
     duration: "45 minutes",
-    link: "https://example.com/python-advanced",
+    link: "https://www.youtube.com/embed/R-HLU9Fl5ug",
     description: "Explore advanced Python data structures and their applications."
   },
   {
@@ -68,7 +68,7 @@ export const learningContentData: LearningContent[] = [
     skillLevel: "Intermediate",
     type: "Video",
     duration: "1 hour",
-    link: "https://example.com/js-es6",
+    link: "https://www.youtube.com/embed/NCwa_xi0Uuc",
     description: "Learn modern JavaScript features and syntax improvements."
   },
   {
@@ -118,7 +118,7 @@ export const learningContentData: LearningContent[] = [
     skillLevel: "Beginner",
     type: "Video",
     duration: "40 minutes",
-    link: "https://example.com/git-github",
+    link: "https://www.youtube.com/embed/tRZGeaHPoaw",
     description: "Master version control with Git and collaborate using GitHub."
   },
   {
@@ -158,7 +158,7 @@ export const learningContentData: LearningContent[] = [
     skillLevel: "Advanced",
     type: "Video",
     duration: "1.5 hours",
-    link: "https://example.com/react-patterns",
+    link: "https://www.youtube.com/embed/GMeQ51MCegI",
     description: "Master advanced React patterns and architectural concepts."
   },
   {
@@ -188,7 +188,7 @@ export const learningContentData: LearningContent[] = [
     skillLevel: "Intermediate",
     type: "Video",
     duration: "2 hours",
-    link: "https://example.com/typescript",
+    link: "https://www.youtube.com/embed/BwuLxPH8IDs",
     description: "Add type safety to JavaScript projects with TypeScript."
   },
   {
@@ -218,7 +218,7 @@ export const learningContentData: LearningContent[] = [
     skillLevel: "Advanced",
     type: "Video",
     duration: "3 hours",
-    link: "https://example.com/d3js",
+    link: "https://www.youtube.com/embed/_8V5o2UHG0E",
     description: "Create interactive data visualizations with D3.js library."
   },
   {

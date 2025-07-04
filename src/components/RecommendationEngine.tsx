@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Brain, Search, BookOpen, Video, FileText, GraduationCap, Clock, ExternalLink } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Brain, Search, BookOpen, Video, FileText, GraduationCap, Clock, ExternalLink, Play } from 'lucide-react';
 import { learningContentData } from "@/data/learningContent";
 import { getRecommendations, getPopularTags, UserPreferences, RecommendationResult } from "@/utils/recommendationEngine";
 import { useToast } from "@/hooks/use-toast";
@@ -21,6 +22,7 @@ const RecommendationEngine = () => {
   const [recommendations, setRecommendations] = useState<RecommendationResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [popularTags, setPopularTags] = useState<string[]>([]);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -315,20 +317,49 @@ const RecommendationEngine = () => {
                             </div>
                           </div>
                           
-                          <Button 
-                            asChild
-                            className="bg-gradient-secondary hover:shadow-soft transition-all"
-                          >
-                            <a 
-                              href={rec.content.link} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-2"
-                            >
-                              <ExternalLink className="h-4 w-4" />
-                              Start Learning
-                            </a>
-                          </Button>
+                          <div className="flex flex-col gap-2">
+                            {rec.content.type === 'Video' && rec.content.link.includes('youtube.com') ? (
+                              <Dialog>
+                                <DialogTrigger asChild>
+                                  <Button 
+                                    className="bg-gradient-secondary hover:shadow-soft transition-all"
+                                  >
+                                    <Play className="h-4 w-4 mr-2" />
+                                    Watch Video
+                                  </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-4xl w-full">
+                                  <DialogHeader>
+                                    <DialogTitle>{rec.content.title}</DialogTitle>
+                                  </DialogHeader>
+                                  <div className="aspect-video w-full">
+                                    <iframe
+                                      src={rec.content.link}
+                                      title={rec.content.title}
+                                      className="w-full h-full rounded-lg"
+                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                      allowFullScreen
+                                    />
+                                  </div>
+                                </DialogContent>
+                              </Dialog>
+                            ) : (
+                              <Button 
+                                asChild
+                                className="bg-gradient-secondary hover:shadow-soft transition-all"
+                              >
+                                <a 
+                                  href={rec.content.link} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="flex items-center gap-2"
+                                >
+                                  <ExternalLink className="h-4 w-4" />
+                                  Start Learning
+                                </a>
+                              </Button>
+                            )}
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
