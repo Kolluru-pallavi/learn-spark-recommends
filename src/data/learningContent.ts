@@ -12,399 +12,333 @@ export interface LearningContent {
 }
 
 export const learningContentData: LearningContent[] = [
-  // Python Courses
+  // Python Programming
   {
     id: 1,
-    title: "Python for Beginners - Complete Course",
+    title: "Python Programming for Beginners",
     tags: ["Python"],
     skillLevel: "Beginner",
     type: "Course",
     duration: "6 hours",
-    link: "https://example.com/python-beginners",
+    link: "https://www.freecodecamp.org/learn/scientific-computing-with-python/",
     description: "Learn Python programming from scratch with hands-on exercises and projects.",
-    platform: "Coursera"
+    platform: "freeCodeCamp"
   },
   {
     id: 2,
-    title: "Advanced Python Data Structures",
+    title: "Python Data Science Tutorial",
     tags: ["Python"],
-    skillLevel: "Advanced",
-    type: "Video",
-    duration: "45 minutes",
-    link: "https://www.youtube.com/embed/R-HLU9Fl5ug",
-    description: "Explore advanced Python data structures and their applications.",
-    platform: "YouTube"
+    skillLevel: "Intermediate",
+    type: "Course",
+    duration: "4 hours",
+    link: "https://www.kaggle.com/learn/python",
+    description: "Master Python for data science and analytics with practical examples.",
+    platform: "Kaggle"
   },
   {
     id: 3,
-    title: "Python Web Scraping Masterclass",
-    tags: ["Python"],
-    skillLevel: "Intermediate",
-    type: "Tutorial",
-    duration: "1 hour",
-    link: "https://example.com/web-scraping",
-    description: "Extract data from websites using Python and BeautifulSoup.",
-    platform: "FreeCodeCamp"
-  },
-  {
-    id: 4,
-    title: "Data Science with Python",
-    tags: ["Python"],
-    skillLevel: "Intermediate",
-    type: "Course",
-    duration: "12 hours",
-    link: "https://example.com/data-science",
-    description: "Complete data science workflow using Python and popular libraries.",
-    platform: "edX"
-  },
-  {
-    id: 5,
-    title: "Python Django Web Development",
-    tags: ["Python"],
-    skillLevel: "Intermediate",
-    type: "Course",
-    duration: "8 hours",
-    link: "https://example.com/django",
-    description: "Build web applications using Django framework.",
-    platform: "Udemy"
-  },
-  {
-    id: 6,
-    title: "Python Testing and TDD",
+    title: "Advanced Python Programming",
     tags: ["Python"],
     skillLevel: "Advanced",
-    type: "Article",
-    duration: "25 minutes",
-    link: "https://example.com/python-testing",
-    description: "Master test-driven development in Python with pytest.",
-    platform: "Medium"
-  },
-  {
-    id: 7,
-    title: "Python Machine Learning Basics",
-    tags: ["Python"],
-    skillLevel: "Intermediate",
     type: "Video",
     duration: "2 hours",
-    link: "https://www.youtube.com/embed/ml-basics",
-    description: "Introduction to machine learning with Python and scikit-learn.",
+    link: "https://www.youtube.com/watch?v=HGOBQPFzWKo",
+    description: "Advanced Python concepts, decorators, generators, and metaclasses.",
     platform: "YouTube"
   },
-  {
-    id: 8,
-    title: "Python Flask Microservices",
-    tags: ["Python"],
-    skillLevel: "Advanced",
-    type: "Tutorial",
-    duration: "3 hours",
-    link: "https://example.com/flask-microservices",
-    description: "Build microservices architecture using Python Flask.",
-    platform: "Real Python"
-  },
-  {
-    id: 9,
-    title: "Python Automation Scripts",
-    tags: ["Python"],
-    skillLevel: "Beginner",
-    type: "Book",
-    duration: "4 hours",
-    link: "https://example.com/python-automation",
-    description: "Automate daily tasks using Python scripts.",
-    platform: "O'Reilly"
-  },
-  {
-    id: 10,
-    title: "Python Performance Optimization",
-    tags: ["Python"],
-    skillLevel: "Advanced",
-    type: "Article",
-    duration: "30 minutes",
-    link: "https://example.com/python-performance",
-    description: "Optimize Python code for better performance and memory usage.",
-    platform: "Dev.to"
-  },
 
-  // JavaScript Courses
+  // JavaScript Programming
   {
-    id: 11,
-    title: "JavaScript Fundamentals",
+    id: 4,
+    title: "JavaScript Complete Course",
     tags: ["JavaScript"],
     skillLevel: "Beginner",
     type: "Course",
-    duration: "5 hours",
-    link: "https://example.com/js-fundamentals",
-    description: "Learn JavaScript from the ground up with practical examples.",
-    platform: "FreeCodeCamp"
+    duration: "8 hours",
+    link: "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/",
+    description: "Complete JavaScript course covering fundamentals to advanced topics.",
+    platform: "freeCodeCamp"
   },
   {
-    id: 12,
+    id: 5,
     title: "Modern JavaScript ES6+",
     tags: ["JavaScript"],
     skillLevel: "Intermediate",
     type: "Video",
-    duration: "1 hour",
-    link: "https://www.youtube.com/embed/NCwa_xi0Uuc",
+    duration: "1.5 hours",
+    link: "https://www.youtube.com/watch?v=NCwa_xi0Uuc",
     description: "Learn modern JavaScript features and syntax improvements.",
     platform: "YouTube"
   },
   {
-    id: 13,
-    title: "JavaScript Async Programming",
+    id: 6,
+    title: "JavaScript Algorithms and Data Structures",
     tags: ["JavaScript"],
     skillLevel: "Advanced",
-    type: "Tutorial",
-    duration: "2 hours",
-    link: "https://example.com/js-async",
-    description: "Master asynchronous programming with promises and async/await.",
-    platform: "JavaScript.info"
+    type: "Course",
+    duration: "10 hours",
+    link: "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/",
+    description: "Master algorithms and data structures using JavaScript.",
+    platform: "freeCodeCamp"
   },
+
+  // Java Programming
   {
-    id: 14,
-    title: "JavaScript DOM Manipulation",
-    tags: ["JavaScript"],
+    id: 7,
+    title: "Java Full Course for Beginners",
+    tags: ["Java"],
     skillLevel: "Beginner",
-    type: "Article",
-    duration: "20 minutes",
-    link: "https://example.com/dom-manipulation",
-    description: "Learn to interact with web pages using JavaScript DOM APIs.",
-    platform: "MDN Web Docs"
+    type: "Video",
+    duration: "12 hours",
+    link: "https://www.youtube.com/watch?v=xk4_1vDrzzo",
+    description: "Complete Java programming course from basics to OOP concepts.",
+    platform: "YouTube"
   },
   {
-    id: 15,
-    title: "JavaScript Design Patterns",
-    tags: ["JavaScript"],
+    id: 8,
+    title: "Java Programming Masterclass",
+    tags: ["Java"],
+    skillLevel: "Intermediate",
+    type: "Course",
+    duration: "15 hours",
+    link: "https://www.coursera.org/learn/java-programming",
+    description: "Comprehensive Java programming course with real-world projects.",
+    platform: "Coursera"
+  },
+  {
+    id: 9,
+    title: "Advanced Java Programming",
+    tags: ["Java"],
     skillLevel: "Advanced",
-    type: "Book",
-    duration: "6 hours",
-    link: "https://example.com/js-patterns",
-    description: "Common design patterns and best practices in JavaScript.",
-    platform: "Packt"
+    type: "Course",
+    duration: "8 hours",
+    link: "https://www.edx.org/course/advanced-java-programming",
+    description: "Advanced Java concepts including multithreading and design patterns.",
+    platform: "edX"
   },
 
   // C Programming
   {
-    id: 16,
-    title: "C Programming for Beginners",
+    id: 10,
+    title: "C Programming Tutorial",
     tags: ["C"],
     skillLevel: "Beginner",
-    type: "Course",
-    duration: "8 hours",
-    link: "https://example.com/c-programming",
+    type: "Tutorial",
+    duration: "6 hours",
+    link: "https://www.programiz.com/c-programming",
     description: "Learn C programming language fundamentals and memory management.",
-    platform: "Coursera"
+    platform: "Programiz"
   },
   {
-    id: 17,
+    id: 11,
     title: "Advanced C Programming",
     tags: ["C"],
     skillLevel: "Advanced",
     type: "Video",
     duration: "3 hours",
-    link: "https://www.youtube.com/embed/c-advanced",
+    link: "https://www.youtube.com/watch?v=87SH2Cn0s9A",
     description: "Master advanced C concepts like pointers, structures, and file handling.",
     platform: "YouTube"
   },
 
   // C++ Programming
   {
-    id: 18,
+    id: 12,
+    title: "C++ Programming Course",
+    tags: ["C++"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "10 hours",
+    link: "https://www.learncpp.com/",
+    description: "Complete C++ programming course from basics to advanced topics.",
+    platform: "LearnCpp"
+  },
+  {
+    id: 13,
     title: "C++ Object-Oriented Programming",
     tags: ["C++"],
     skillLevel: "Intermediate",
-    type: "Course",
-    duration: "10 hours",
-    link: "https://example.com/cpp-oop",
+    type: "Video",
+    duration: "4 hours",
+    link: "https://www.youtube.com/watch?v=wN0x9eZLix4",
     description: "Master object-oriented programming concepts in C++.",
-    platform: "edX"
+    platform: "YouTube"
   },
   {
-    id: 19,
+    id: 14,
     title: "C++ STL Complete Guide",
     tags: ["C++"],
     skillLevel: "Advanced",
     type: "Tutorial",
-    duration: "4 hours",
-    link: "https://example.com/cpp-stl",
+    duration: "5 hours",
+    link: "https://www.geeksforgeeks.org/the-c-standard-template-library-stl/",
     description: "Comprehensive guide to C++ Standard Template Library.",
     platform: "GeeksforGeeks"
   },
 
-  // Java Programming
+  // Data Structures and Algorithms
   {
-    id: 20,
-    title: "Java Programming Fundamentals",
-    tags: ["Java"],
-    skillLevel: "Beginner",
-    type: "Course",
-    duration: "12 hours",
-    link: "https://example.com/java-basics",
-    description: "Learn Java programming from basics to object-oriented concepts.",
-    platform: "Oracle"
-  },
-  {
-    id: 21,
-    title: "Java Spring Boot Framework",
-    tags: ["Java"],
-    skillLevel: "Intermediate",
-    type: "Course",
-    duration: "15 hours",
-    link: "https://example.com/spring-boot",
-    description: "Build enterprise applications with Java Spring Boot.",
-    platform: "Udemy"
-  },
-
-  // Data Structures
-  {
-    id: 22,
+    id: 15,
     title: "Data Structures and Algorithms",
     tags: ["Data Structures"],
     skillLevel: "Intermediate",
     type: "Course",
     duration: "20 hours",
-    link: "https://example.com/dsa",
-    description: "Master fundamental data structures and algorithms.",
+    link: "https://www.freecodecamp.org/learn/coding-interview-prep/",
+    description: "Master fundamental data structures and algorithms for coding interviews.",
+    platform: "freeCodeCamp"
+  },
+  {
+    id: 16,
+    title: "Introduction to Algorithms",
+    tags: ["Data Structures"],
+    skillLevel: "Advanced",
+    type: "Course",
+    duration: "40 hours",
+    link: "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/",
+    description: "MIT's comprehensive algorithms course covering advanced concepts.",
     platform: "MIT OpenCourseWare"
   },
   {
-    id: 23,
-    title: "Advanced Data Structures",
+    id: 17,
+    title: "Data Structures Visualization",
     tags: ["Data Structures"],
-    skillLevel: "Advanced",
-    type: "Video",
-    duration: "5 hours",
-    link: "https://www.youtube.com/embed/advanced-ds",
-    description: "Trees, graphs, heaps, and advanced algorithmic concepts.",
-    platform: "YouTube"
+    skillLevel: "Beginner",
+    type: "Tutorial",
+    duration: "3 hours",
+    link: "https://visualgo.net/en",
+    description: "Interactive visualizations of data structures and algorithms.",
+    platform: "VisuAlgo"
   },
 
   // Web Development
   {
-    id: 24,
+    id: 18,
     title: "Full Stack Web Development",
     tags: ["Web Development"],
     skillLevel: "Intermediate",
     type: "Course",
     duration: "30 hours",
-    link: "https://example.com/fullstack",
+    link: "https://www.freecodecamp.org/learn/",
     description: "Complete web development course covering frontend and backend.",
-    platform: "FreeCodeCamp"
+    platform: "freeCodeCamp"
   },
   {
-    id: 25,
-    title: "Modern Web Development Tools",
+    id: 19,
+    title: "Web Development Bootcamp",
     tags: ["Web Development"],
-    skillLevel: "Advanced",
-    type: "Tutorial",
-    duration: "3 hours",
-    link: "https://example.com/web-tools",
-    description: "Learn modern tools and workflows for web development.",
-    platform: "Dev.to"
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "25 hours",
+    link: "https://www.theodinproject.com/",
+    description: "Comprehensive web development curriculum with hands-on projects.",
+    platform: "The Odin Project"
   },
 
   // Frontend Development
   {
-    id: 26,
-    title: "Frontend Development Bootcamp",
+    id: 20,
+    title: "Frontend Development Course",
     tags: ["Frontend"],
     skillLevel: "Beginner",
     type: "Course",
-    duration: "25 hours",
-    link: "https://example.com/frontend-bootcamp",
-    description: "Complete frontend development course with HTML, CSS, and JavaScript.",
-    platform: "Coursera"
+    duration: "15 hours",
+    link: "https://www.freecodecamp.org/learn/responsive-web-design/",
+    description: "Learn HTML, CSS, and responsive web design principles.",
+    platform: "freeCodeCamp"
   },
   {
-    id: 27,
-    title: "Advanced Frontend Architectures",
+    id: 21,
+    title: "Advanced Frontend Techniques",
     tags: ["Frontend"],
     skillLevel: "Advanced",
     type: "Article",
-    duration: "45 minutes",
-    link: "https://example.com/frontend-arch",
-    description: "Modern frontend architecture patterns and best practices.",
-    platform: "Smashing Magazine"
+    duration: "2 hours",
+    link: "https://web.dev/learn/",
+    description: "Modern frontend development best practices and performance optimization.",
+    platform: "Web.dev"
   },
 
   // HTML
   {
-    id: 28,
+    id: 22,
     title: "HTML5 Complete Guide",
     tags: ["HTML"],
     skillLevel: "Beginner",
     type: "Tutorial",
     duration: "4 hours",
-    link: "https://example.com/html5-guide",
+    link: "https://www.w3schools.com/html/",
     description: "Learn HTML5 semantic elements, forms, and multimedia integration.",
     platform: "W3Schools"
   },
   {
-    id: 29,
-    title: "HTML Accessibility Best Practices",
+    id: 23,
+    title: "HTML Accessibility Guide",
     tags: ["HTML"],
     skillLevel: "Intermediate",
     type: "Article",
-    duration: "30 minutes",
-    link: "https://example.com/html-accessibility",
+    duration: "1 hour",
+    link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/HTML",
     description: "Build accessible web applications with proper HTML structure.",
-    platform: "A11y Project"
+    platform: "MDN Web Docs"
   },
 
   // CSS
   {
-    id: 30,
-    title: "CSS Grid and Flexbox Mastery",
+    id: 24,
+    title: "CSS Grid and Flexbox Course",
     tags: ["CSS"],
     skillLevel: "Intermediate",
     type: "Course",
     duration: "8 hours",
-    link: "https://example.com/css-grid-flex",
+    link: "https://www.freecodecamp.org/learn/responsive-web-design/",
     description: "Master modern CSS layout techniques with Grid and Flexbox.",
-    platform: "CSS-Tricks"
+    platform: "freeCodeCamp"
   },
   {
-    id: 31,
+    id: 25,
     title: "Advanced CSS Animations",
     tags: ["CSS"],
     skillLevel: "Advanced",
     type: "Video",
     duration: "2 hours",
-    link: "https://www.youtube.com/embed/css-animations",
+    link: "https://www.youtube.com/watch?v=jgw82b5Y2MU",
     description: "Create stunning animations and transitions with CSS.",
     platform: "YouTube"
   },
 
   // React
   {
-    id: 32,
-    title: "React Fundamentals",
+    id: 26,
+    title: "React Official Tutorial",
     tags: ["React"],
     skillLevel: "Beginner",
-    type: "Course",
-    duration: "12 hours",
-    link: "https://example.com/react-fundamentals",
-    description: "Learn React basics including components, state, and props.",
+    type: "Tutorial",
+    duration: "6 hours",
+    link: "https://react.dev/learn",
+    description: "Official React tutorial covering components, state, and props.",
     platform: "React.dev"
   },
   {
-    id: 33,
-    title: "React Hooks and Context",
+    id: 27,
+    title: "React Complete Course",
     tags: ["React"],
     skillLevel: "Intermediate",
-    type: "Tutorial",
-    duration: "6 hours",
-    link: "https://example.com/react-hooks",
-    description: "Master React Hooks and Context API for state management.",
-    platform: "Egghead"
+    type: "Video",
+    duration: "12 hours",
+    link: "https://www.youtube.com/watch?v=Ke90Tje7VS0",
+    description: "Complete React course with hooks, context, and modern patterns.",
+    platform: "YouTube"
   },
   {
-    id: 34,
-    title: "React Performance Optimization",
+    id: 28,
+    title: "Advanced React Patterns",
     tags: ["React"],
     skillLevel: "Advanced",
-    type: "Video",
-    duration: "3 hours",
-    link: "https://www.youtube.com/embed/react-performance",
-    description: "Optimize React applications for better performance.",
-    platform: "YouTube"
+    type: "Course",
+    duration: "8 hours",
+    link: "https://epicreact.dev/",
+    description: "Advanced React patterns and performance optimization techniques.",
+    platform: "Epic React"
   }
 ];
