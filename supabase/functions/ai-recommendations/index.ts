@@ -230,11 +230,124 @@ function generateSmartRecommendations(userPreferences: UserPreferences) {
       link: "https://www.youtube.com/watch?v=FTFaQWZBqQ8",
       description: "Master Figma for UI design and prototyping",
       platform: "YouTube"
+    },
+    // Specialized/Niche Topics
+    {
+      id: 16,
+      title: "Blockchain Development with Solidity",
+      tags: ["blockchain", "solidity", "ethereum", "smart contracts"],
+      skillLevel: "Intermediate",
+      type: "Course",
+      duration: "20 hours",
+      link: "https://www.udemy.com/course/blockchain-developer/",
+      description: "Build decentralized applications on Ethereum blockchain",
+      platform: "Udemy"
+    },
+    {
+      id: 17,
+      title: "Cybersecurity Fundamentals",
+      tags: ["cybersecurity", "ethical hacking", "security", "penetration testing"],
+      skillLevel: "Beginner",
+      type: "Course",
+      duration: "15 hours",
+      link: "https://www.coursera.org/learn/cyber-security-basics",
+      description: "Learn essential cybersecurity concepts and practices",
+      platform: "Coursera"
+    },
+    {
+      id: 18,
+      title: "Cloud Architecture with AWS",
+      tags: ["aws", "cloud computing", "architecture", "devops"],
+      skillLevel: "Intermediate",
+      type: "Course",
+      duration: "25 hours",
+      link: "https://aws.amazon.com/training/",
+      description: "Design scalable cloud solutions using AWS services",
+      platform: "AWS Training"
+    },
+    {
+      id: 19,
+      title: "Game Development with Unity",
+      tags: ["unity", "game development", "c#", "3d graphics"],
+      skillLevel: "Beginner",
+      type: "Course",
+      duration: "30 hours",
+      link: "https://learn.unity.com/",
+      description: "Create 2D and 3D games using Unity engine",
+      platform: "Unity Learn"
+    },
+    {
+      id: 20,
+      title: "Digital Marketing Analytics",
+      tags: ["digital marketing", "analytics", "seo", "social media"],
+      skillLevel: "Beginner",
+      type: "Course",
+      duration: "12 hours",
+      link: "https://www.google.com/skillshop/course/58",
+      description: "Master digital marketing strategies and analytics",
+      platform: "Google Skillshop"
+    },
+    {
+      id: 21,
+      title: "Mobile App Development with Flutter",
+      tags: ["flutter", "dart", "mobile development", "cross-platform"],
+      skillLevel: "Intermediate",
+      type: "Course",
+      duration: "22 hours",
+      link: "https://flutter.dev/docs/get-started/learn-flutter",
+      description: "Build beautiful mobile apps for iOS and Android",
+      platform: "Flutter Docs"
+    },
+    {
+      id: 22,
+      title: "3D Modeling with Blender",
+      tags: ["blender", "3d modeling", "animation", "rendering"],
+      skillLevel: "Beginner",
+      type: "Tutorial",
+      duration: "18 hours",
+      link: "https://www.blender.org/support/tutorials/",
+      description: "Create stunning 3D models and animations",
+      platform: "Blender Foundation"
+    },
+    {
+      id: 23,
+      title: "Quantum Computing Basics",
+      tags: ["quantum computing", "physics", "algorithms", "qubits"],
+      skillLevel: "Advanced",
+      type: "Course",
+      duration: "16 hours",
+      link: "https://www.ibm.com/quantum/learn",
+      description: "Understand quantum computing principles and applications",
+      platform: "IBM Quantum"
+    },
+    {
+      id: 24,
+      title: "Artificial Intelligence Ethics",
+      tags: ["ai ethics", "philosophy", "responsible ai", "bias"],
+      skillLevel: "Intermediate",
+      type: "Course",
+      duration: "8 hours",
+      link: "https://www.edx.org/course/artificial-intelligence-ethics",
+      description: "Explore ethical considerations in AI development",
+      platform: "edX"
+    },
+    {
+      id: 25,
+      title: "Robotics Engineering",
+      tags: ["robotics", "engineering", "automation", "sensors"],
+      skillLevel: "Advanced",
+      type: "Course",
+      duration: "40 hours",
+      link: "https://www.coursera.org/specializations/robotics",
+      description: "Design and program autonomous robotic systems",
+      platform: "Coursera"
     }
   ];
 
   // Get popular tags to deprioritize them for AI-based diverse recommendations
   const popularTags = ['javascript', 'python', 'react', 'web development', 'data science', 'html', 'css', 'programming', 'frontend', 'backend'];
+
+  console.log('Processing recommendation request for interests:', interests);
 
   // Smart matching algorithm with diversity boost
   let scoredResources = learningResources.map(resource => {
@@ -266,18 +379,23 @@ function generateSmartRecommendations(userPreferences: UserPreferences) {
       score += 3;
     }
     
-    // AI-based diversity: Deprioritize overly popular topics to surface unique content
+    // AI-based diversity: Check if resource has popular tags
     const hasPopularTag = resource.tags.some(tag => 
       popularTags.some(popular => tag.toLowerCase().includes(popular))
     );
-    if (hasPopularTag) {
-      score -= 1; // Reduce score for popular topics to promote diversity
-    } else {
-      score += 3; // Boost unique/niche topics for AI-driven discovery
+    
+    // If resource matches user interests but has popular tags, slightly reduce score
+    if (hasPopularTag && interestMatches.length > 0) {
+      score -= 1;
+    }
+    
+    // If resource matches user interests and has NO popular tags (niche content), boost it significantly
+    if (!hasPopularTag && interestMatches.length > 0) {
+      score += 5; // Major boost for niche content that matches interests
     }
     
     // Boost specialized/advanced topics that aren't mainstream
-    const specializedKeywords = ['machine learning', 'blockchain', 'cybersecurity', 'devops', 'cloud', 'ai', 'algorithms', 'system design', 'microservices', 'kubernetes'];
+    const specializedKeywords = ['blockchain', 'cybersecurity', 'quantum', 'robotics', 'unity', 'blender', 'ethics', 'flutter'];
     const hasSpecializedContent = resource.tags.some(tag => 
       specializedKeywords.some(keyword => tag.toLowerCase().includes(keyword))
     ) || specializedKeywords.some(keyword => 
@@ -285,6 +403,8 @@ function generateSmartRecommendations(userPreferences: UserPreferences) {
       resource.description.toLowerCase().includes(keyword)
     );
     if (hasSpecializedContent) score += 4;
+    
+    console.log(`Resource: ${resource.title}, Score: ${score}, Has Popular Tags: ${hasPopularTag}, Interest Matches: ${interestMatches.length}`);
     
     return { ...resource, matchScore: score };
   });
