@@ -9,8 +9,26 @@ import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Brain, Search, BookOpen, Video, FileText, GraduationCap, Clock, ExternalLink, Play } from 'lucide-react';
 import { learningContentData } from "@/data/learningContent";
-import { getRecommendations, getPopularTags, UserPreferences, RecommendationResult } from "@/utils/recommendationEngine";
+import { getPopularTags, UserPreferences } from "@/utils/recommendationEngine";
 import { useToast } from "@/hooks/use-toast";
+import { callAIRecommendations } from "@/lib/api";
+
+// AI-generated recommendation result interface
+interface AIRecommendationResult {
+  content: {
+    id: number;
+    title: string;
+    tags: string[];
+    skillLevel: 'Beginner' | 'Intermediate' | 'Advanced';
+    type: 'Video' | 'Article' | 'Course' | 'Tutorial' | 'Book';
+    duration: string;
+    link: string;
+    description: string;
+    platform: string;
+  };
+  score: number;
+  matchedTags: string[];
+}
 
 const RecommendationEngine = () => {
   const [userPreferences, setUserPreferences] = useState<UserPreferences>({
@@ -19,7 +37,7 @@ const RecommendationEngine = () => {
     contentType: 'Any'
   });
   const [interestInput, setInterestInput] = useState('');
-  const [recommendations, setRecommendations] = useState<RecommendationResult[]>([]);
+  const [recommendations, setRecommendations] = useState<AIRecommendationResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [popularTags, setPopularTags] = useState<string[]>([]);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
@@ -69,17 +87,25 @@ const RecommendationEngine = () => {
 
     setIsLoading(true);
     
-    // Simulate API call delay for better UX
-    setTimeout(() => {
-      const results = getRecommendations(userPreferences, learningContentData);
-      setRecommendations(results);
-      setIsLoading(false);
+    try {
+      // Call AI-powered recommendation service via Supabase Edge Function
+      const data = await callAIRecommendations(userPreferences);
+      setRecommendations(data.recommendations);
       
       toast({
-        title: "Recommendations generated!",
-        description: `Found ${results.length} personalized learning resources for you.`,
+        title: "AI Recommendations Generated!",
+        description: `Found ${data.recommendations.length} personalized learning resources powered by AI.`,
       });
-    }, 1000);
+    } catch (error) {
+      console.error('Error getting AI recommendations:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate recommendations. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getTypeIcon = (type: string) => {
@@ -245,12 +271,12 @@ const RecommendationEngine = () => {
                   {isLoading ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-                      Analyzing Preferences...
+                      Generating AI Recommendations...
                     </>
                   ) : (
                     <>
                       <Brain className="h-4 w-4 mr-2" />
-                      Get Recommendations
+                      Get AI Recommendations
                     </>
                   )}
                 </Button>
@@ -264,7 +290,7 @@ const RecommendationEngine = () => {
               <div className="space-y-6">
                 <div className="flex items-center gap-2 mb-6">
                   <GraduationCap className="h-6 w-6 text-primary" />
-                  <h2 className="text-2xl font-bold">Your Personalized Recommendations</h2>
+                  <h2 className="text-2xl font-bold">Your AI-Powered Recommendations</h2>
                 </div>
                 
                 <div className="grid gap-4">
