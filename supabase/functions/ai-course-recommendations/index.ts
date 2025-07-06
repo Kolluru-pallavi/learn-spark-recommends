@@ -19,6 +19,11 @@ serve(async (req) => {
   try {
     const { interests, skillLevel, contentType, userId } = await req.json();
     
+    // Check if OpenAI API key is available
+    if (!openAIApiKey) {
+      throw new Error('OpenAI API key is not configured');
+    }
+    
     // Initialize Supabase client
     const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
     
@@ -85,6 +90,13 @@ Limit to top 5 recommendations.`;
     });
 
     const aiData = await response.json();
+    console.log('OpenAI API Response:', JSON.stringify(aiData, null, 2));
+    
+    // Check if OpenAI API call was successful
+    if (!response.ok || !aiData.choices || !aiData.choices[0] || !aiData.choices[0].message) {
+      throw new Error(`OpenAI API failed: ${aiData.error?.message || 'Invalid response structure'}`);
+    }
+
     const aiRecommendations = JSON.parse(aiData.choices[0].message.content);
     
     // Get detailed course information for recommended courses
