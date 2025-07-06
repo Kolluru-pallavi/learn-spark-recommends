@@ -161,14 +161,25 @@ Limit to top 5 recommendations.`;
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
     );
-  } catch (error) {
-    console.error('Error in ai-course-recommendations function:', error);
-    return new Response(
-      JSON.stringify({ error: error.message }), 
-      {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
-  }
+    } catch (error) {
+      console.error('Error in ai-course-recommendations function:', error);
+      
+      // Return detailed error information for debugging
+      const errorResponse = {
+        error: error.message,
+        details: error.stack,
+        timestamp: new Date().toISOString(),
+        function: 'ai-course-recommendations'
+      };
+      
+      console.log('Error response:', JSON.stringify(errorResponse, null, 2));
+      
+      return new Response(
+        JSON.stringify(errorResponse), 
+        {
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
 });
