@@ -148,26 +148,14 @@ const Home = () => {
             your interests, skill level, and preferences to curate the most relevant educational content just for you.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button 
-              onClick={handleGetRecommendations}
-              size="lg"
-              className="bg-gradient-primary hover:shadow-medium transition-all duration-300 text-lg px-8 py-4"
-            >
-              <Brain className="h-5 w-5 mr-2" />
-              Get My Recommendations
-            </Button>
-            {user && (
-              <Button 
-                onClick={() => navigate('/dashboard')}
-                size="lg"
-                variant="outline"
-                className="hover:shadow-soft transition-all duration-300 text-lg px-8 py-4"
-              >
-                View Dashboard
-              </Button>
-            )}
-          </div>
+          <Button 
+            onClick={handleGetRecommendations}
+            size="lg"
+            className="bg-gradient-primary hover:shadow-medium transition-all duration-300 text-lg px-8 py-4"
+          >
+            <Brain className="h-5 w-5 mr-2" />
+            Get My Recommendations
+          </Button>
         </div>
 
         {/* Features Grid */}
