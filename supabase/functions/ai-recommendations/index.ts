@@ -409,18 +409,31 @@ function generateSmartRecommendations(userPreferences: UserPreferences) {
     return { ...resource, matchScore: score };
   });
 
-  // Filter and sort by relevance
+  // Filter and sort by relevance - ONLY show courses that actually match user interests
   scoredResources = scoredResources
-    .filter(resource => resource.matchScore > 0)
+    .filter(resource => {
+      // Only include resources that have actual interest matches
+      const hasInterestMatch = interests.some(interest => 
+        resource.tags.some(tag => 
+          tag.toLowerCase().includes(interest.toLowerCase()) || 
+          interest.toLowerCase().includes(tag.toLowerCase())
+        ) ||
+        resource.title.toLowerCase().includes(interest.toLowerCase()) ||
+        resource.description.toLowerCase().includes(interest.toLowerCase())
+      );
+      
+      // Must have interest match AND positive score
+      return hasInterestMatch && resource.matchScore > 0;
+    })
     .sort((a, b) => b.matchScore - a.matchScore)
-    .slice(0, 10); // Top 10 recommendations
+    .slice(0, 10); // Top 10 relevant recommendations
 
-  // If no matches, provide general beginner-friendly resources
+  console.log(`Filtered to ${scoredResources.length} relevant courses from ${learningResources.length} total courses`);
+
+  // If no relevant matches found, return empty array instead of general recommendations
   if (scoredResources.length === 0) {
-    scoredResources = learningResources
-      .filter(resource => resource.skillLevel === 'Beginner')
-      .slice(0, 5)
-      .map(resource => ({ ...resource, matchScore: 1 }));
+    console.log('No relevant courses found for user interests:', interests);
+    return [];
   }
 
   // Remove matchScore before returning
