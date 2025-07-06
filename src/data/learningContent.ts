@@ -12,333 +12,169 @@ export interface LearningContent {
 }
 
 export const learningContentData: LearningContent[] = [
-  // Python Programming
   {
     id: 1,
-    title: "Python Programming for Beginners",
-    tags: ["Python"],
+    title: "Intro to ML by Andrew Ng",
+    tags: ["ML", "AI"],
     skillLevel: "Beginner",
     type: "Course",
-    duration: "6 hours",
-    link: "https://www.freecodecamp.org/learn/scientific-computing-with-python/",
-    description: "Learn Python programming from scratch with hands-on exercises and projects.",
-    platform: "freeCodeCamp"
+    duration: "60 hours",
+    link: "https://coursera.org/ml-ng",
+    description: "Comprehensive machine learning course by Andrew Ng covering fundamentals of AI and ML.",
+    platform: "Coursera"
   },
   {
     id: 2,
-    title: "Python Data Science Tutorial",
+    title: "Python Basics",
     tags: ["Python"],
-    skillLevel: "Intermediate",
-    type: "Course",
+    skillLevel: "Beginner",
+    type: "Video",
     duration: "4 hours",
-    link: "https://www.kaggle.com/learn/python",
-    description: "Master Python for data science and analytics with practical examples.",
-    platform: "Kaggle"
+    link: "https://youtube.com/py-basics",
+    description: "Learn Python programming fundamentals from scratch with practical examples.",
+    platform: "YouTube"
   },
   {
     id: 3,
-    title: "Advanced Python Programming",
-    tags: ["Python"],
-    skillLevel: "Advanced",
+    title: "Web Dev Crash Course",
+    tags: ["HTML", "CSS", "Web Development"],
+    skillLevel: "Beginner",
     type: "Video",
-    duration: "2 hours",
-    link: "https://www.youtube.com/watch?v=HGOBQPFzWKo",
-    description: "Advanced Python concepts, decorators, generators, and metaclasses.",
-    platform: "YouTube"
+    duration: "8 hours",
+    link: "https://youtube.com/web-crash",
+    description: "Complete web development crash course covering HTML and CSS basics.",
+    platform: "freeCodeCamp"
   },
-
-  // JavaScript Programming
   {
     id: 4,
-    title: "JavaScript Complete Course",
-    tags: ["JavaScript"],
+    title: "JavaScript Full Course",
+    tags: ["JavaScript", "Web Development"],
     skillLevel: "Beginner",
-    type: "Course",
+    type: "Video",
     duration: "8 hours",
-    link: "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/",
-    description: "Complete JavaScript course covering fundamentals to advanced topics.",
+    link: "https://www.youtube.com/watch?v=jS4aFq5-91M",
+    description: "Complete JavaScript course from basics to advanced concepts for web development.",
     platform: "freeCodeCamp"
   },
   {
     id: 5,
-    title: "Modern JavaScript ES6+",
-    tags: ["JavaScript"],
+    title: "Data Structures and Algorithms in C++",
+    tags: ["Data Structures", "C++"],
     skillLevel: "Intermediate",
-    type: "Video",
-    duration: "1.5 hours",
-    link: "https://www.youtube.com/watch?v=NCwa_xi0Uuc",
-    description: "Learn modern JavaScript features and syntax improvements.",
-    platform: "YouTube"
+    type: "Course",
+    duration: "40 hours",
+    link: "https://practice.geeksforgeeks.org/courses/DSA-Self-Paced",
+    description: "Master data structures and algorithms using C++ for competitive programming.",
+    platform: "GeeksforGeeks"
   },
   {
     id: 6,
-    title: "JavaScript Algorithms and Data Structures",
-    tags: ["JavaScript"],
-    skillLevel: "Advanced",
-    type: "Course",
-    duration: "10 hours",
-    link: "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/",
-    description: "Master algorithms and data structures using JavaScript.",
-    platform: "freeCodeCamp"
-  },
-
-  // Java Programming
-  {
-    id: 7,
-    title: "Java Full Course for Beginners",
-    tags: ["Java"],
+    title: "Operating System Crash Course",
+    tags: ["Operating Systems"],
     skillLevel: "Beginner",
     type: "Video",
-    duration: "12 hours",
-    link: "https://www.youtube.com/watch?v=xk4_1vDrzzo",
-    description: "Complete Java programming course from basics to OOP concepts.",
+    duration: "5 hours",
+    link: "https://www.youtube.com/watch?v=26QPDBe-NB8",
+    description: "Comprehensive overview of operating system concepts and theory.",
     platform: "YouTube"
   },
   {
+    id: 7,
+    title: "DBMS Full Tutorial",
+    tags: ["Database", "SQL"],
+    skillLevel: "Beginner",
+    type: "Video",
+    duration: "6 hours",
+    link: "https://www.youtube.com/watch?v=ESiqDY2mr5A",
+    description: "Complete database management systems tutorial covering SQL and MySQL.",
+    platform: "Gate Smashers"
+  },
+  {
     id: 8,
-    title: "Java Programming Masterclass",
+    title: "Java Programming for Beginners",
     tags: ["Java"],
-    skillLevel: "Intermediate",
+    skillLevel: "Beginner",
     type: "Course",
-    duration: "15 hours",
+    duration: "25 hours",
     link: "https://www.coursera.org/learn/java-programming",
-    description: "Comprehensive Java programming course with real-world projects.",
+    description: "Learn Java programming from basics including object-oriented programming concepts.",
     platform: "Coursera"
   },
   {
     id: 9,
-    title: "Advanced Java Programming",
-    tags: ["Java"],
-    skillLevel: "Advanced",
-    type: "Course",
-    duration: "8 hours",
-    link: "https://www.edx.org/course/advanced-java-programming",
-    description: "Advanced Java concepts including multithreading and design patterns.",
-    platform: "edX"
+    title: "Git & GitHub for Beginners",
+    tags: ["Git", "GitHub"],
+    skillLevel: "Beginner",
+    type: "Video",
+    duration: "1 hour",
+    link: "https://www.youtube.com/watch?v=RGOj5yH7evk",
+    description: "Master version control with Git and GitHub for collaborative development.",
+    platform: "YouTube"
   },
-
-  // C Programming
   {
     id: 10,
-    title: "C Programming Tutorial",
-    tags: ["C"],
-    skillLevel: "Beginner",
-    type: "Tutorial",
-    duration: "6 hours",
-    link: "https://www.programiz.com/c-programming",
-    description: "Learn C programming language fundamentals and memory management.",
-    platform: "Programiz"
-  },
-  {
-    id: 11,
-    title: "Advanced C Programming",
-    tags: ["C"],
-    skillLevel: "Advanced",
-    type: "Video",
-    duration: "3 hours",
-    link: "https://www.youtube.com/watch?v=87SH2Cn0s9A",
-    description: "Master advanced C concepts like pointers, structures, and file handling.",
-    platform: "YouTube"
-  },
-
-  // C++ Programming
-  {
-    id: 12,
-    title: "C++ Programming Course",
-    tags: ["C++"],
-    skillLevel: "Beginner",
-    type: "Course",
-    duration: "10 hours",
-    link: "https://www.learncpp.com/",
-    description: "Complete C++ programming course from basics to advanced topics.",
-    platform: "LearnCpp"
-  },
-  {
-    id: 13,
-    title: "C++ Object-Oriented Programming",
-    tags: ["C++"],
-    skillLevel: "Intermediate",
-    type: "Video",
-    duration: "4 hours",
-    link: "https://www.youtube.com/watch?v=wN0x9eZLix4",
-    description: "Master object-oriented programming concepts in C++.",
-    platform: "YouTube"
-  },
-  {
-    id: 14,
-    title: "C++ STL Complete Guide",
-    tags: ["C++"],
-    skillLevel: "Advanced",
-    type: "Tutorial",
-    duration: "5 hours",
-    link: "https://www.geeksforgeeks.org/the-c-standard-template-library-stl/",
-    description: "Comprehensive guide to C++ Standard Template Library.",
-    platform: "GeeksforGeeks"
-  },
-
-  // Data Structures and Algorithms
-  {
-    id: 15,
-    title: "Data Structures and Algorithms",
-    tags: ["Data Structures"],
-    skillLevel: "Intermediate",
-    type: "Course",
-    duration: "20 hours",
-    link: "https://www.freecodecamp.org/learn/coding-interview-prep/",
-    description: "Master fundamental data structures and algorithms for coding interviews.",
-    platform: "freeCodeCamp"
-  },
-  {
-    id: 16,
-    title: "Introduction to Algorithms",
-    tags: ["Data Structures"],
-    skillLevel: "Advanced",
-    type: "Course",
-    duration: "40 hours",
-    link: "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/",
-    description: "MIT's comprehensive algorithms course covering advanced concepts.",
-    platform: "MIT OpenCourseWare"
-  },
-  {
-    id: 17,
-    title: "Data Structures Visualization",
-    tags: ["Data Structures"],
-    skillLevel: "Beginner",
-    type: "Tutorial",
-    duration: "3 hours",
-    link: "https://visualgo.net/en",
-    description: "Interactive visualizations of data structures and algorithms.",
-    platform: "VisuAlgo"
-  },
-
-  // Web Development
-  {
-    id: 18,
-    title: "Full Stack Web Development",
-    tags: ["Web Development"],
-    skillLevel: "Intermediate",
-    type: "Course",
-    duration: "30 hours",
-    link: "https://www.freecodecamp.org/learn/",
-    description: "Complete web development course covering frontend and backend.",
-    platform: "freeCodeCamp"
-  },
-  {
-    id: 19,
-    title: "Web Development Bootcamp",
-    tags: ["Web Development"],
-    skillLevel: "Beginner",
-    type: "Course",
-    duration: "25 hours",
-    link: "https://www.theodinproject.com/",
-    description: "Comprehensive web development curriculum with hands-on projects.",
-    platform: "The Odin Project"
-  },
-
-  // Frontend Development
-  {
-    id: 20,
-    title: "Frontend Development Course",
-    tags: ["Frontend"],
-    skillLevel: "Beginner",
-    type: "Course",
-    duration: "15 hours",
-    link: "https://www.freecodecamp.org/learn/responsive-web-design/",
-    description: "Learn HTML, CSS, and responsive web design principles.",
-    platform: "freeCodeCamp"
-  },
-  {
-    id: 21,
-    title: "Advanced Frontend Techniques",
-    tags: ["Frontend"],
-    skillLevel: "Advanced",
-    type: "Article",
-    duration: "2 hours",
-    link: "https://web.dev/learn/",
-    description: "Modern frontend development best practices and performance optimization.",
-    platform: "Web.dev"
-  },
-
-  // HTML
-  {
-    id: 22,
-    title: "HTML5 Complete Guide",
-    tags: ["HTML"],
-    skillLevel: "Beginner",
-    type: "Tutorial",
-    duration: "4 hours",
-    link: "https://www.w3schools.com/html/",
-    description: "Learn HTML5 semantic elements, forms, and multimedia integration.",
-    platform: "W3Schools"
-  },
-  {
-    id: 23,
-    title: "HTML Accessibility Guide",
-    tags: ["HTML"],
-    skillLevel: "Intermediate",
-    type: "Article",
-    duration: "1 hour",
-    link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/HTML",
-    description: "Build accessible web applications with proper HTML structure.",
-    platform: "MDN Web Docs"
-  },
-
-  // CSS
-  {
-    id: 24,
-    title: "CSS Grid and Flexbox Course",
-    tags: ["CSS"],
-    skillLevel: "Intermediate",
-    type: "Course",
-    duration: "8 hours",
-    link: "https://www.freecodecamp.org/learn/responsive-web-design/",
-    description: "Master modern CSS layout techniques with Grid and Flexbox.",
-    platform: "freeCodeCamp"
-  },
-  {
-    id: 25,
-    title: "Advanced CSS Animations",
-    tags: ["CSS"],
-    skillLevel: "Advanced",
-    type: "Video",
-    duration: "2 hours",
-    link: "https://www.youtube.com/watch?v=jgw82b5Y2MU",
-    description: "Create stunning animations and transitions with CSS.",
-    platform: "YouTube"
-  },
-
-  // React
-  {
-    id: 26,
-    title: "React Official Tutorial",
-    tags: ["React"],
-    skillLevel: "Beginner",
-    type: "Tutorial",
-    duration: "6 hours",
-    link: "https://react.dev/learn",
-    description: "Official React tutorial covering components, state, and props.",
-    platform: "React.dev"
-  },
-  {
-    id: 27,
-    title: "React Complete Course",
-    tags: ["React"],
+    title: "Computer Networks Crash Course",
+    tags: ["Networking"],
     skillLevel: "Intermediate",
     type: "Video",
     duration: "12 hours",
-    link: "https://www.youtube.com/watch?v=Ke90Tje7VS0",
-    description: "Complete React course with hooks, context, and modern patterns.",
-    platform: "YouTube"
+    link: "https://www.youtube.com/playlist?list=PLBlnK6fEyqRjX3C9ZpG2Ob3J2Q1y_MFNa",
+    description: "Complete computer networking course covering TCP/IP and network protocols.",
+    platform: "Neso Academy"
   },
   {
-    id: 28,
-    title: "Advanced React Patterns",
-    tags: ["React"],
+    id: 11,
+    title: "System Design Primer",
+    tags: ["System Design"],
     skillLevel: "Advanced",
+    type: "Article",
+    duration: "10 hours",
+    link: "https://github.com/donnemartin/system-design-primer",
+    description: "Comprehensive guide to system design concepts and scalable architecture patterns.",
+    platform: "GitHub"
+  },
+  {
+    id: 12,
+    title: "Data Science with Python",
+    tags: ["Python", "Data Science"],
+    skillLevel: "Intermediate",
     type: "Course",
-    duration: "8 hours",
-    link: "https://epicreact.dev/",
-    description: "Advanced React patterns and performance optimization techniques.",
-    platform: "Epic React"
+    duration: "35 hours",
+    link: "https://www.coursera.org/learn/data-analysis-with-python",
+    description: "Learn data science using Python, pandas, and machine learning techniques.",
+    platform: "Coursera"
+  },
+  {
+    id: 13,
+    title: "Introduction to Cybersecurity",
+    tags: ["Cybersecurity"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "15 hours",
+    link: "https://www.netacad.com/courses/cybersecurity/introduction-cybersecurity",
+    description: "Fundamental cybersecurity concepts and network security principles.",
+    platform: "Cisco Networking Academy"
+  },
+  {
+    id: 14,
+    title: "Full Stack Web Development",
+    tags: ["React", "Frontend", "Web Development"],
+    skillLevel: "Intermediate",
+    type: "Video",
+    duration: "12 hours",
+    link: "https://www.youtube.com/watch?v=4W4LvJnNegk",
+    description: "Complete full stack web development course using MERN stack (React, Node.js).",
+    platform: "freeCodeCamp"
+  },
+  {
+    id: 15,
+    title: "Cloud Computing Basics",
+    tags: ["Cloud Computing"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "20 hours",
+    link: "https://www.coursera.org/learn/cloud-computing-basics",
+    description: "Introduction to cloud computing concepts including AWS and GCP fundamentals.",
+    platform: "IBM/Coursera"
   }
 ];
