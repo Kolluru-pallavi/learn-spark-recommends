@@ -41,6 +41,8 @@ const RecommendationEngine = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [popularTags, setPopularTags] = useState<string[]>([]);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [showPopularCourses, setShowPopularCourses] = useState(false);
+  const [popularCourses, setPopularCourses] = useState<AIRecommendationResult[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -80,6 +82,32 @@ const RecommendationEngine = () => {
       
       // Automatically get recommendations when popular tag is added
       await getRecommendationsForPreferences(newPreferences);
+    }
+  };
+
+  const getPopularTopicCourses = async () => {
+    try {
+      // Get courses for popular topics
+      const popularTopics = ['javascript', 'python', 'react', 'web development', 'data science', 'html', 'css', 'programming', 'frontend', 'backend'];
+      const popularPreferences = {
+        interests: popularTopics,
+        skillLevel: 'Beginner' as 'Beginner' | 'Intermediate' | 'Advanced',
+        contentType: 'Any' as 'Video' | 'Article' | 'Course' | 'Tutorial' | 'Book' | 'Any'
+      };
+      
+      const data = await callAIRecommendations(popularPreferences);
+      
+      if (data?.recommendations) {
+        setPopularCourses(data.recommendations);
+        setShowPopularCourses(true);
+      }
+    } catch (error) {
+      console.error('Error getting popular courses:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load popular courses.",
+        variant: "destructive"
+      });
     }
   };
 
@@ -221,7 +249,17 @@ const RecommendationEngine = () => {
 
                 {/* Popular Tags */}
                 <div className="space-y-3">
-                  <Label>Popular Topics</Label>
+                  <div className="flex items-center justify-between">
+                    <Label>Popular Topics</Label>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={getPopularTopicCourses}
+                      className="text-primary hover:text-primary/90"
+                    >
+                      View All Courses
+                    </Button>
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {popularTags.slice(0, 8).map((tag) => (
                       <Badge 
@@ -306,7 +344,121 @@ const RecommendationEngine = () => {
 
           {/* Recommendations */}
           <div className="lg:col-span-2">
-            {recommendations.length > 0 ? (
+            {showPopularCourses ? (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-2">
+                    <GraduationCap className="h-6 w-6 text-primary" />
+                    <h2 className="text-2xl font-bold">Popular Topic Courses</h2>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setShowPopularCourses(false)}
+                  >
+                    Back to Recommendations
+                  </Button>
+                </div>
+                
+                <div className="grid gap-4">
+                  {popularCourses.map((rec, index) => (
+                    <Card key={rec.content.id} className="bg-gradient-card shadow-soft border-0 hover:shadow-medium transition-all duration-300">
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="text-sm font-bold text-primary bg-primary/10 px-2 py-1 rounded">
+                                #{index + 1}
+                              </span>
+                              <Badge className={`${getSkillLevelColor(rec.content.skillLevel)} text-white`}>
+                                {rec.content.skillLevel}
+                              </Badge>
+                              <div className="flex items-center gap-1 text-muted-foreground">
+                                {getTypeIcon(rec.content.type)}
+                                <span className="text-sm">{rec.content.type}</span>
+                              </div>
+                            </div>
+                            
+                            <h3 className="text-xl font-semibold mb-2 text-foreground">
+                              {rec.content.title}
+                            </h3>
+                            
+                            <p className="text-muted-foreground mb-4 line-clamp-2">
+                              {rec.content.description}
+                            </p>
+                            
+                            <div className="flex items-center gap-4 mb-3">
+                              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                <Clock className="h-4 w-4" />
+                                {rec.content.duration}
+                              </div>
+                              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                🌐 {rec.content.platform}
+                              </div>
+                            </div>
+                            
+                            <div className="flex flex-wrap gap-2 mb-4">
+                              {rec.content.tags.map((tag) => (
+                                <Badge 
+                                  key={tag} 
+                                  variant={rec.matchedTags.includes(tag) ? "default" : "outline"}
+                                  className={rec.matchedTags.includes(tag) ? "bg-primary" : ""}
+                                >
+                                  {tag}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                          
+                          <div className="flex flex-col gap-2">
+                            {rec.content.type === 'Video' && rec.content.link.includes('youtube.com') ? (
+                              <Dialog>
+                                <DialogTrigger asChild>
+                                  <Button 
+                                    className="bg-gradient-secondary hover:shadow-soft transition-all"
+                                  >
+                                    <Play className="h-4 w-4 mr-2" />
+                                    Watch Video
+                                  </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-4xl w-full">
+                                  <DialogHeader>
+                                    <DialogTitle>{rec.content.title}</DialogTitle>
+                                  </DialogHeader>
+                                  <div className="aspect-video w-full">
+                                    <iframe
+                                      src={rec.content.link}
+                                      title={rec.content.title}
+                                      className="w-full h-full rounded-lg"
+                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                      allowFullScreen
+                                    />
+                                  </div>
+                                </DialogContent>
+                              </Dialog>
+                            ) : (
+                              <Button 
+                                asChild
+                                className="bg-gradient-secondary hover:shadow-soft transition-all"
+                              >
+                                <a 
+                                  href={rec.content.link} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="flex items-center gap-2"
+                                >
+                                  <ExternalLink className="h-4 w-4" />
+                                  Start Learning
+                                </a>
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            ) : recommendations.length > 0 ? (
               <div className="space-y-6">
                 <div className="flex items-center gap-2 mb-6">
                   <GraduationCap className="h-6 w-6 text-primary" />
