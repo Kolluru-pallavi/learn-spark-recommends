@@ -34,6 +34,18 @@ serve(async (req) => {
       });
     }
 
+    // Validate API key format
+    if (!openAIApiKey.startsWith('sk-')) {
+      console.error('Invalid OpenAI API key format - should start with sk-');
+      return new Response(JSON.stringify({ 
+        error: 'Invalid OpenAI API key format',
+        details: 'OpenAI API key should start with "sk-". Please check your API key.'
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     console.log('Processing AI recommendations request for:', userPreferences);
 
     const contentTypeFilter = userPreferences.contentType === 'Any' ? 'any type of content' : userPreferences.contentType.toLowerCase();
