@@ -8,9 +8,20 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Brain, Search, BookOpen, Video, FileText, GraduationCap, Clock, ExternalLink, Play } from 'lucide-react';
-import { learningContentData } from "@/data/learningContent";
-import { getRecommendations, getPopularTags, UserPreferences, RecommendationResult } from "@/utils/recommendationEngine";
+import { supabase } from "@/integrations/supabase/client";
+import { Tables } from "@/integrations/supabase/types";
 import { useToast } from "@/hooks/use-toast";
+
+interface UserPreferences {
+  interests: string[];
+  skillLevel: 'Beginner' | 'Intermediate' | 'Advanced';
+  contentType: 'Video' | 'Article' | 'Course' | 'Tutorial' | 'Book' | 'Any';
+}
+
+interface AIRecommendation extends Tables<'courses'> {
+  relevance_score: number;
+  ai_explanation: string;
+}
 
 const RecommendationEngine = () => {
   const [userPreferences, setUserPreferences] = useState<UserPreferences>({
@@ -19,16 +30,36 @@ const RecommendationEngine = () => {
     contentType: 'Any'
   });
   const [interestInput, setInterestInput] = useState('');
-  const [recommendations, setRecommendations] = useState<RecommendationResult[]>([]);
+  const [recommendations, setRecommendations] = useState<AIRecommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [popularTags, setPopularTags] = useState<string[]>([]);
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    // Load popular tags on component mount
-    const tags = getPopularTags(learningContentData);
-    setPopularTags(tags);
+    // Load popular tags from database
+    const loadPopularTags = async () => {
+      const { data: courses } = await supabase
+        .from('courses')
+        .select('tags');
+      
+      if (courses) {
+        const tagCounts: { [tag: string]: number } = {};
+        courses.forEach(course => {
+          course.tags?.forEach(tag => {
+            tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+          });
+        });
+        
+        const sortedTags = Object.entries(tagCounts)
+          .sort(([, a], [, b]) => b - a)
+          .map(([tag]) => tag)
+          .slice(0, 12);
+        
+        setPopularTags(sortedTags);
+      }
+    };
+    
+    loadPopularTags();
   }, []);
 
   const handleAddInterest = () => {
@@ -69,17 +100,38 @@ const RecommendationEngine = () => {
 
     setIsLoading(true);
     
-    // Simulate API call delay for better UX
-    setTimeout(() => {
-      const results = getRecommendations(userPreferences, learningContentData);
-      setRecommendations(results);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      const response = await supabase.functions.invoke('ai-course-recommendations', {
+        body: {
+          interests: userPreferences.interests,
+          skillLevel: userPreferences.skillLevel,
+          contentType: userPreferences.contentType,
+          userId: user?.id
+        }
+      });
+
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
+
+      setRecommendations(response.data.recommendations);
       setIsLoading(false);
       
       toast({
-        title: "Recommendations generated!",
-        description: `Found ${results.length} personalized learning resources for you.`,
+        title: "AI Recommendations generated!",
+        description: `Found ${response.data.recommendations.length} personalized courses for you.`,
       });
-    }, 1000);
+    } catch (error) {
+      console.error('Error getting recommendations:', error);
+      setIsLoading(false);
+      toast({
+        title: "Error",
+        description: "Failed to get recommendations. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const getTypeIcon = (type: string) => {
@@ -100,6 +152,17 @@ const RecommendationEngine = () => {
       case 'Advanced': return 'bg-accent';
       default: return 'bg-muted';
     }
+  };
+
+  const getPlatformName = (link: string) => {
+    if (link.includes('youtube.com') || link.includes('youtu.be')) return 'YouTube';
+    if (link.includes('coursera.org')) return 'Coursera';
+    if (link.includes('udemy.com')) return 'Udemy';
+    if (link.includes('edx.org')) return 'edX';
+    if (link.includes('khan')) return 'Khan Academy';
+    if (link.includes('pluralsight')) return 'Pluralsight';
+    if (link.includes('linkedin.com/learning')) return 'LinkedIn Learning';
+    return 'External Platform';
   };
 
   return (
@@ -267,49 +330,60 @@ const RecommendationEngine = () => {
                   <h2 className="text-2xl font-bold">Your Personalized Recommendations</h2>
                 </div>
                 
-                <div className="grid gap-4">
+                <div className="grid gap-6">
                   {recommendations.map((rec, index) => (
-                    <Card key={rec.content.id} className="bg-gradient-card shadow-soft border-0 hover:shadow-medium transition-all duration-300">
+                    <Card key={rec.id} className="bg-gradient-card shadow-soft border-0 hover:shadow-medium transition-all duration-300">
                       <CardContent className="p-6">
-                        <div className="flex items-start justify-between gap-4">
+                        <div className="flex items-start justify-between gap-4 mb-4">
                           <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
+                            <div className="flex items-center gap-2 mb-3">
                               <span className="text-sm font-bold text-primary bg-primary/10 px-2 py-1 rounded">
-                                #{index + 1}
+                                #{index + 1} • AI Match: {Math.round(rec.relevance_score * 100)}%
                               </span>
-                              <Badge className={`${getSkillLevelColor(rec.content.skillLevel)} text-white`}>
-                                {rec.content.skillLevel}
+                              <Badge className={`${getSkillLevelColor(rec.skill_level)} text-white`}>
+                                {rec.skill_level}
                               </Badge>
                               <div className="flex items-center gap-1 text-muted-foreground">
-                                {getTypeIcon(rec.content.type)}
-                                <span className="text-sm">{rec.content.type}</span>
+                                {getTypeIcon(rec.type)}
+                                <span className="text-sm">{rec.type}</span>
                               </div>
                             </div>
                             
                             <h3 className="text-xl font-semibold mb-2 text-foreground">
-                              {rec.content.title}
+                              {rec.title}
                             </h3>
                             
-                            <p className="text-muted-foreground mb-4 line-clamp-2">
-                              {rec.content.description}
+                            <p className="text-muted-foreground mb-3 line-clamp-2">
+                              {rec.description}
                             </p>
+
+                            {/* AI Explanation */}
+                            <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 mb-4">
+                              <p className="text-sm text-primary font-medium mb-1">🤖 AI Recommendation:</p>
+                              <p className="text-sm text-foreground">{rec.ai_explanation}</p>
+                            </div>
                             
                             <div className="flex items-center gap-4 mb-3">
                               <div className="flex items-center gap-1 text-sm text-muted-foreground">
                                 <Clock className="h-4 w-4" />
-                                {rec.content.duration}
+                                {rec.duration}
                               </div>
-                              <div className="text-sm text-primary font-medium">
-                                Match: {Math.round(rec.score * 100)}%
+                              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                <ExternalLink className="h-4 w-4" />
+                                Available on: <span className="font-medium text-foreground">{getPlatformName(rec.external_id?.toString() || '')}</span>
                               </div>
                             </div>
                             
                             <div className="flex flex-wrap gap-2 mb-4">
-                              {rec.content.tags.map((tag) => (
+                              {rec.tags?.map((tag) => (
                                 <Badge 
                                   key={tag} 
-                                  variant={rec.matchedTags.includes(tag) ? "default" : "outline"}
-                                  className={rec.matchedTags.includes(tag) ? "bg-primary" : ""}
+                                  variant={userPreferences.interests.some(interest => 
+                                    interest.toLowerCase() === tag.toLowerCase()
+                                  ) ? "default" : "outline"}
+                                  className={userPreferences.interests.some(interest => 
+                                    interest.toLowerCase() === tag.toLowerCase()
+                                  ) ? "bg-primary" : ""}
                                 >
                                   {tag}
                                 </Badge>
@@ -318,47 +392,34 @@ const RecommendationEngine = () => {
                           </div>
                           
                           <div className="flex flex-col gap-2">
-                            {rec.content.type === 'Video' && rec.content.link.includes('youtube.com') ? (
-                              <Dialog>
-                                <DialogTrigger asChild>
-                                  <Button 
-                                    className="bg-gradient-secondary hover:shadow-soft transition-all"
-                                  >
-                                    <Play className="h-4 w-4 mr-2" />
-                                    Watch Video
-                                  </Button>
-                                </DialogTrigger>
-                                <DialogContent className="max-w-4xl w-full">
-                                  <DialogHeader>
-                                    <DialogTitle>{rec.content.title}</DialogTitle>
-                                  </DialogHeader>
-                                  <div className="aspect-video w-full">
-                                    <iframe
-                                      src={rec.content.link}
-                                      title={rec.content.title}
-                                      className="w-full h-full rounded-lg"
-                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                      allowFullScreen
-                                    />
-                                  </div>
-                                </DialogContent>
-                              </Dialog>
-                            ) : (
-                              <Button 
-                                asChild
-                                className="bg-gradient-secondary hover:shadow-soft transition-all"
-                              >
-                                <a 
-                                  href={rec.content.link} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                  className="flex items-center gap-2"
-                                >
-                                  <ExternalLink className="h-4 w-4" />
-                                  Start Learning
-                                </a>
-                              </Button>
-                            )}
+                            <Button 
+                              className="bg-gradient-primary hover:shadow-soft transition-all"
+                              onClick={() => window.open('#', '_blank')}
+                            >
+                              <Play className="h-4 w-4 mr-2" />
+                              Start Course
+                            </Button>
+                            <Button 
+                              variant="outline"
+                              size="sm"
+                              onClick={async () => {
+                                const { data: { user } } = await supabase.auth.getUser();
+                                if (user) {
+                                  await supabase.from('user_progress').upsert({
+                                    user_id: user.id,
+                                    course_id: rec.id,
+                                    status: 'in_progress',
+                                    started_at: new Date().toISOString()
+                                  });
+                                  toast({
+                                    title: "Course Added!",
+                                    description: "Course added to your dashboard.",
+                                  });
+                                }
+                              }}
+                            >
+                              Add to Dashboard
+                            </Button>
                           </div>
                         </div>
                       </CardContent>
