@@ -233,7 +233,10 @@ function generateSmartRecommendations(userPreferences: UserPreferences) {
     }
   ];
 
-  // Smart matching algorithm
+  // Get popular tags to deprioritize them for AI-based diverse recommendations
+  const popularTags = ['javascript', 'python', 'react', 'web development', 'data science', 'html', 'css', 'programming', 'frontend', 'backend'];
+
+  // Smart matching algorithm with diversity boost
   let scoredResources = learningResources.map(resource => {
     let score = 0;
     
@@ -263,12 +266,25 @@ function generateSmartRecommendations(userPreferences: UserPreferences) {
       score += 3;
     }
     
-    // Boost popular/fundamental topics
-    const popularTags = ['javascript', 'python', 'react', 'web development', 'data science'];
+    // AI-based diversity: Deprioritize overly popular topics to surface unique content
     const hasPopularTag = resource.tags.some(tag => 
       popularTags.some(popular => tag.toLowerCase().includes(popular))
     );
-    if (hasPopularTag) score += 2;
+    if (hasPopularTag) {
+      score -= 1; // Reduce score for popular topics to promote diversity
+    } else {
+      score += 3; // Boost unique/niche topics for AI-driven discovery
+    }
+    
+    // Boost specialized/advanced topics that aren't mainstream
+    const specializedKeywords = ['machine learning', 'blockchain', 'cybersecurity', 'devops', 'cloud', 'ai', 'algorithms', 'system design', 'microservices', 'kubernetes'];
+    const hasSpecializedContent = resource.tags.some(tag => 
+      specializedKeywords.some(keyword => tag.toLowerCase().includes(keyword))
+    ) || specializedKeywords.some(keyword => 
+      resource.title.toLowerCase().includes(keyword) || 
+      resource.description.toLowerCase().includes(keyword)
+    );
+    if (hasSpecializedContent) score += 4;
     
     return { ...resource, matchScore: score };
   });
