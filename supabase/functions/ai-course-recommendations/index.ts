@@ -17,41 +17,18 @@ serve(async (req) => {
   }
 
   try {
-    console.log('=== AI Course Recommendations Function Started ===');
-    
-    const requestBody = await req.json();
-    console.log('Request body:', JSON.stringify(requestBody, null, 2));
-    
-    const { interests, skillLevel, contentType, userId } = requestBody;
-    
-    // Check if OpenAI API key is available
-    if (!openAIApiKey) {
-      console.error('OpenAI API key is not configured');
-      throw new Error('OpenAI API key is not configured');
-    }
-    
-    console.log('OpenAI API key is available:', !!openAIApiKey);
-    console.log('Supabase URL:', !!supabaseUrl);
-    console.log('Supabase Service Key:', !!supabaseServiceKey);
+    const { interests, skillLevel, contentType, userId } = await req.json();
     
     // Initialize Supabase client
     const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
     
     // Get all available courses from database
-    console.log('Fetching courses from database...');
     const { data: courses, error: coursesError } = await supabase
       .from('courses')
       .select('*');
     
     if (coursesError) {
-      console.error('Database error:', coursesError);
       throw new Error(`Failed to fetch courses: ${coursesError.message}`);
-    }
-
-    console.log(`Found ${courses?.length || 0} courses in database`);
-    
-    if (!courses || courses.length === 0) {
-      throw new Error('No courses found in database');
     }
 
     // Create AI prompt for course recommendations
@@ -108,31 +85,7 @@ Limit to top 5 recommendations.`;
     });
 
     const aiData = await response.json();
-    console.log('OpenAI API Response:', JSON.stringify(aiData, null, 2));
-    console.log('OpenAI Response Status:', response.status);
-    
-    // Check if OpenAI API call was successful
-    if (!response.ok) {
-      console.error('OpenAI API request failed with status:', response.status);
-      throw new Error(`OpenAI API failed with status ${response.status}: ${aiData.error?.message || 'Unknown error'}`);
-    }
-    
-    if (!aiData.choices || !aiData.choices[0] || !aiData.choices[0].message) {
-      console.error('Invalid OpenAI response structure:', aiData);
-      throw new Error('Invalid response structure from OpenAI API');
-    }
-
-    console.log('AI Response Content:', aiData.choices[0].message.content);
-    
-    let aiRecommendations;
-    try {
-      aiRecommendations = JSON.parse(aiData.choices[0].message.content);
-      console.log('Parsed AI recommendations:', JSON.stringify(aiRecommendations, null, 2));
-    } catch (parseError) {
-      console.error('Failed to parse AI response as JSON:', parseError);
-      console.error('Raw AI response:', aiData.choices[0].message.content);
-      throw new Error('Failed to parse AI response as valid JSON');
-    }
+    const aiRecommendations = JSON.parse(aiData.choices[0].message.content);
     
     // Get detailed course information for recommended courses
     const recommendedCourseIds = aiRecommendations.recommendations.map((rec: any) => rec.course_id);
@@ -161,25 +114,14 @@ Limit to top 5 recommendations.`;
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
     );
-    } catch (error) {
-      console.error('Error in ai-course-recommendations function:', error);
-      
-      // Return detailed error information for debugging
-      const errorResponse = {
-        error: error.message,
-        details: error.stack,
-        timestamp: new Date().toISOString(),
-        function: 'ai-course-recommendations'
-      };
-      
-      console.log('Error response:', JSON.stringify(errorResponse, null, 2));
-      
-      return new Response(
-        JSON.stringify(errorResponse), 
-        {
-          status: 500,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
-    }
+  } catch (error) {
+    console.error('Error in ai-course-recommendations function:', error);
+    return new Response(
+      JSON.stringify({ error: error.message }), 
+      {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
+  }
 });
