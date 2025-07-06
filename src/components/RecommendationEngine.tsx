@@ -49,13 +49,17 @@ const RecommendationEngine = () => {
     setPopularTags(tags);
   }, []);
 
-  const handleAddInterest = () => {
+  const handleAddInterest = async () => {
     if (interestInput.trim() && !userPreferences.interests.includes(interestInput.trim())) {
-      setUserPreferences(prev => ({
-        ...prev,
-        interests: [...prev.interests, interestInput.trim()]
-      }));
+      const newPreferences = {
+        ...userPreferences,
+        interests: [...userPreferences.interests, interestInput.trim()]
+      };
+      setUserPreferences(newPreferences);
       setInterestInput('');
+      
+      // Automatically get recommendations when interest is added
+      await getRecommendationsForPreferences(newPreferences);
     }
   };
 
@@ -66,30 +70,27 @@ const RecommendationEngine = () => {
     }));
   };
 
-  const handleAddPopularTag = (tag: string) => {
+  const handleAddPopularTag = async (tag: string) => {
     if (!userPreferences.interests.includes(tag)) {
-      setUserPreferences(prev => ({
-        ...prev,
-        interests: [...prev.interests, tag]
-      }));
+      const newPreferences = {
+        ...userPreferences,
+        interests: [...userPreferences.interests, tag]
+      };
+      setUserPreferences(newPreferences);
+      
+      // Automatically get recommendations when popular tag is added
+      await getRecommendationsForPreferences(newPreferences);
     }
   };
 
-  const handleGetRecommendations = async () => {
-    if (userPreferences.interests.length === 0) {
-      toast({
-        title: "Add interests",
-        description: "Please add at least one interest to get personalized recommendations.",
-        variant: "destructive"
-      });
-      return;
-    }
+  const getRecommendationsForPreferences = async (preferences: typeof userPreferences) => {
+    if (preferences.interests.length === 0) return;
 
     setIsLoading(true);
     
     try {
       // Call smart recommendation service via Supabase Edge Function
-      const data = await callAIRecommendations(userPreferences);
+      const data = await callAIRecommendations(preferences);
       
       if (!data?.recommendations) {
         throw new Error('No recommendations received from recommendation service');
@@ -124,6 +125,8 @@ const RecommendationEngine = () => {
       setIsLoading(false);
     }
   };
+
+  const handleGetRecommendations = () => getRecommendationsForPreferences(userPreferences);
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -293,7 +296,7 @@ const RecommendationEngine = () => {
                   ) : (
                   <>
                     <Brain className="h-4 w-4 mr-2" />
-                    Get Smart Recommendations
+                    Refresh Recommendations
                   </>
                   )}
                 </Button>
