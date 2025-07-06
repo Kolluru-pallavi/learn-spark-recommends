@@ -90,17 +90,34 @@ const RecommendationEngine = () => {
     try {
       // Call AI-powered recommendation service via Supabase Edge Function
       const data = await callAIRecommendations(userPreferences);
+      
+      if (!data?.recommendations) {
+        throw new Error('No recommendations received from AI service');
+      }
+      
       setRecommendations(data.recommendations);
       
       toast({
         title: "AI Recommendations Generated!",
         description: `Found ${data.recommendations.length} personalized learning resources powered by AI.`,
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error getting AI recommendations:', error);
+      
+      // Provide more specific error messages
+      let errorMessage = "Failed to generate recommendations. Please try again.";
+      
+      if (error.message?.includes('OpenAI API key')) {
+        errorMessage = "OpenAI API key is not configured. Please contact support.";
+      } else if (error.message?.includes('non-2xx status')) {
+        errorMessage = "AI service is temporarily unavailable. Please try again in a moment.";
+      } else if (error.message?.includes('Failed to parse')) {
+        errorMessage = "AI service returned an invalid response. Please try again.";
+      }
+      
       toast({
         title: "Error",
-        description: "Failed to generate recommendations. Please try again.",
+        description: errorMessage,
         variant: "destructive"
       });
     } finally {
