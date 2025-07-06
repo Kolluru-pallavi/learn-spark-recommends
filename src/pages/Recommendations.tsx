@@ -87,6 +87,12 @@ const Recommendations = () => {
               </Button>
               <Button 
                 variant="outline" 
+                onClick={() => navigate('/dashboard')}
+              >
+                Dashboard
+              </Button>
+              <Button 
+                variant="outline" 
                 onClick={handleSignOut}
                 className="flex items-center gap-2"
               >
