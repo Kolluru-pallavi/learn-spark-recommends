@@ -1131,5 +1131,549 @@ export const learningContentData: LearningContent[] = [
     duration: "7 hours",
     link: "https://example.com/kotlin-patterns",
     description: "Implement design patterns in Kotlin applications."
+  },
+
+  // Data Structures and Algorithms
+  {
+    id: 1136,
+    title: "Complete Data Structures and Algorithms Course",
+    tags: ["Data Structures", "Algorithms"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "12 hours",
+    link: "https://example.com/dsa-complete",
+    description: "Master fundamental data structures and algorithms from scratch."
+  },
+  {
+    id: 1137,
+    title: "Advanced Algorithm Design Techniques",
+    tags: ["Algorithms"],
+    skillLevel: "Advanced",
+    type: "Course",
+    duration: "8 hours",
+    link: "https://example.com/advanced-algorithms",
+    description: "Learn dynamic programming, greedy algorithms, and graph algorithms."
+  },
+  {
+    id: 1138,
+    title: "Competitive Programming with DSA",
+    tags: ["Data Structures", "Algorithms"],
+    skillLevel: "Intermediate",
+    type: "Tutorial",
+    duration: "3 hours",
+    link: "https://example.com/competitive-programming",
+    description: "Apply DSA concepts to solve competitive programming problems."
+  },
+
+  // Database Management Systems
+  {
+    id: 1139,
+    title: "Database Design and Management",
+    tags: ["Database"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "10 hours",
+    link: "https://example.com/database-design",
+    description: "Learn SQL, database design, normalization, and ACID properties."
+  },
+  {
+    id: 1140,
+    title: "Advanced Database Systems",
+    tags: ["Database"],
+    skillLevel: "Advanced",
+    type: "Course",
+    duration: "6 hours",
+    link: "https://example.com/advanced-database",
+    description: "Explore NoSQL databases, distributed databases, and performance tuning."
+  },
+  {
+    id: 1141,  
+    title: "SQL Mastery for Developers",
+    tags: ["Database"],
+    skillLevel: "Intermediate",
+    type: "Tutorial",
+    duration: "4 hours",
+    link: "https://example.com/sql-mastery",
+    description: "Master complex SQL queries, stored procedures, and optimization."
+  },
+
+  // Computer Networks
+  {
+    id: 1142,
+    title: "Computer Networks Fundamentals",
+    tags: ["Networks"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "8 hours",
+    link: "https://example.com/networks-fundamentals",
+    description: "Learn OSI model, TCP/IP, routing, and network protocols."
+  },
+  {
+    id: 1143,
+    title: "Network Security and Protocols",
+    tags: ["Networks", "Security"],
+    skillLevel: "Intermediate",
+    type: "Course",
+    duration: "6 hours",
+    link: "https://example.com/network-security",
+    description: "Understand network security, firewalls, VPNs, and encryption."
+  },
+  {
+    id: 1144,
+    title: "Wireless and Mobile Networks",
+    tags: ["Networks"],
+    skillLevel: "Advanced",
+    type: "Article",
+    duration: "2 hours",
+    link: "https://example.com/wireless-networks",
+    description: "Explore wireless communication, 5G, and mobile network architecture."
+  },
+
+  // Operating Systems
+  {
+    id: 1145,
+    title: "Operating Systems Concepts",
+    tags: ["Operating Systems"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "10 hours",
+    link: "https://example.com/os-concepts",
+    description: "Learn process management, memory management, and file systems."
+  },
+  {
+    id: 1146,
+    title: "Linux System Administration",
+    tags: ["Operating Systems", "Linux"],
+    skillLevel: "Intermediate",
+    type: "Tutorial",
+    duration: "5 hours",
+    link: "https://example.com/linux-admin",
+    description: "Master Linux commands, shell scripting, and system administration."
+  },
+  {
+    id: 1147,
+    title: "Distributed Operating Systems",
+    tags: ["Operating Systems"],
+    skillLevel: "Advanced",
+    type: "Course",
+    duration: "7 hours",
+    link: "https://example.com/distributed-os",
+    description: "Understand distributed systems, synchronization, and fault tolerance."
+  },
+
+  // Software Engineering
+  {
+    id: 1148,
+    title: "Software Engineering Principles",
+    tags: ["Software Engineering"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "8 hours",
+    link: "https://example.com/software-engineering",
+    description: "Learn SDLC, design patterns, testing, and project management."
+  },
+  {
+    id: 1149,
+    title: "Agile and Scrum Methodology",
+    tags: ["Software Engineering"],
+    skillLevel: "Intermediate",
+    type: "Tutorial",
+    duration: "3 hours",
+    link: "https://example.com/agile-scrum",
+    description: "Master agile development practices and Scrum framework."
+  },
+  {
+    id: 1150,
+    title: "Software Architecture Design",
+    tags: ["Software Engineering"],
+    skillLevel: "Advanced",
+    type: "Course",
+    duration: "6 hours",
+    link: "https://example.com/software-architecture",
+    description: "Design scalable software architectures and microservices."
+  },
+
+  // Machine Learning
+  {
+    id: 1151,
+    title: "Machine Learning for Beginners",
+    tags: ["Machine Learning"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "12 hours",
+    link: "https://example.com/ml-beginners",
+    description: "Introduction to ML algorithms, supervised and unsupervised learning."
+  },
+  {
+    id: 1152,
+    title: "Deep Learning with Neural Networks",
+    tags: ["Machine Learning", "Deep Learning"],
+    skillLevel: "Advanced",
+    type: "Course",
+    duration: "15 hours",
+    link: "https://example.com/deep-learning",
+    description: "Master neural networks, CNNs, RNNs, and deep learning frameworks."
+  },
+  {
+    id: 1153,
+    title: "Natural Language Processing",
+    tags: ["Machine Learning", "NLP"],
+    skillLevel: "Intermediate",
+    type: "Tutorial",
+    duration: "6 hours",
+    link: "https://example.com/nlp-tutorial",
+    description: "Learn text processing, sentiment analysis, and language models."
+  },
+
+  // Artificial Intelligence
+  {
+    id: 1154,
+    title: "Introduction to Artificial Intelligence",
+    tags: ["Artificial Intelligence"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "10 hours",
+    link: "https://example.com/ai-intro",
+    description: "Explore AI concepts, search algorithms, and knowledge representation."
+  },
+  {
+    id: 1155,
+    title: "Computer Vision Fundamentals",
+    tags: ["Artificial Intelligence", "Computer Vision"],
+    skillLevel: "Intermediate",
+    type: "Course",
+    duration: "8 hours",
+    link: "https://example.com/computer-vision",
+    description: "Learn image processing, object detection, and recognition algorithms."
+  },
+  {
+    id: 1156,
+    title: "AI Ethics and Responsible AI",
+    tags: ["Artificial Intelligence"],
+    skillLevel: "Intermediate",
+    type: "Article",
+    duration: "2 hours",
+    link: "https://example.com/ai-ethics",
+    description: "Understand ethical implications of AI and responsible development practices."
+  },
+
+  // Cybersecurity
+  {
+    id: 1157,
+    title: "Cybersecurity Fundamentals",
+    tags: ["Cybersecurity"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "8 hours",
+    link: "https://example.com/cybersecurity-basics",
+    description: "Learn security principles, threats, vulnerabilities, and risk management."
+  },
+  {
+    id: 1158,
+    title: "Ethical Hacking and Penetration Testing",
+    tags: ["Cybersecurity"],
+    skillLevel: "Advanced",
+    type: "Course",
+    duration: "12 hours",
+    link: "https://example.com/ethical-hacking",
+    description: "Master penetration testing, vulnerability assessment, and security tools."
+  },
+  {
+    id: 1159,
+    title: "Cryptography and Data Protection",
+    tags: ["Cybersecurity"],
+    skillLevel: "Intermediate",
+    type: "Tutorial",
+    duration: "4 hours",
+    link: "https://example.com/cryptography",
+    description: "Understand encryption, digital signatures, and secure communication."
+  },
+
+  // Computer Graphics
+  {
+    id: 1160,
+    title: "Computer Graphics Basics",
+    tags: ["Computer Graphics"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "6 hours",
+    link: "https://example.com/graphics-basics",
+    description: "Learn 2D/3D graphics, rendering algorithms, and graphics programming."
+  },
+  {
+    id: 1161,
+    title: "Game Development with Graphics",
+    tags: ["Computer Graphics", "Game Development"],
+    skillLevel: "Intermediate",
+    type: "Course",
+    duration: "10 hours",
+    link: "https://example.com/game-graphics",
+    description: "Create games using graphics engines and rendering techniques."
+  },
+  {
+    id: 1162,
+    title: "Advanced Rendering Techniques",
+    tags: ["Computer Graphics"],
+    skillLevel: "Advanced",
+    type: "Tutorial",
+    duration: "5 hours",
+    link: "https://example.com/advanced-rendering",
+    description: "Master ray tracing, global illumination, and real-time rendering."
+  },
+
+  // Cloud Computing
+  {
+    id: 1163,
+    title: "Cloud Computing Fundamentals",
+    tags: ["Cloud Computing"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "8 hours",
+    link: "https://example.com/cloud-basics",
+    description: "Learn cloud models, AWS/Azure basics, and cloud architecture."
+  },
+  {
+    id: 1164,
+    title: "Docker and Containerization",
+    tags: ["Cloud Computing", "DevOps"],
+    skillLevel: "Intermediate",
+    type: "Tutorial",
+    duration: "4 hours",
+    link: "https://example.com/docker-tutorial",
+    description: "Master Docker containers, orchestration, and microservices deployment."
+  },
+  {
+    id: 1165,
+    title: "Kubernetes for Production",
+    tags: ["Cloud Computing", "DevOps"],
+    skillLevel: "Advanced",
+    type: "Course",
+    duration: "12 hours",
+    link: "https://example.com/kubernetes-production",
+    description: "Deploy and manage applications at scale using Kubernetes."
+  },
+
+  // Web Development
+  {
+    id: 1166,
+    title: "Full Stack Web Development",
+    tags: ["Web Development"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "20 hours",
+    link: "https://example.com/fullstack-web",
+    description: "Build complete web applications using modern frameworks and tools."
+  },
+  {
+    id: 1167,
+    title: "React.js Advanced Patterns",
+    tags: ["Web Development", "React"],
+    skillLevel: "Advanced",
+    type: "Tutorial",
+    duration: "6 hours",
+    link: "https://example.com/react-advanced",
+    description: "Master advanced React patterns, hooks, and performance optimization."
+  },
+  {
+    id: 1168,
+    title: "RESTful API Design",
+    tags: ["Web Development"],
+    skillLevel: "Intermediate",
+    type: "Course",
+    duration: "5 hours",
+    link: "https://example.com/api-design",
+    description: "Design and implement scalable REST APIs with best practices."
+  },
+
+  // Mobile Development
+  {
+    id: 1169,
+    title: "Android App Development",
+    tags: ["Mobile Development"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "15 hours",
+    link: "https://example.com/android-development",
+    description: "Build native Android apps using Java/Kotlin and Android Studio."
+  },
+  {
+    id: 1170,
+    title: "iOS Development with Swift",
+    tags: ["Mobile Development"],
+    skillLevel: "Intermediate",
+    type: "Course",
+    duration: "12 hours",
+    link: "https://example.com/ios-swift",
+    description: "Create iOS applications using Swift and Xcode development environment."
+  },
+  {
+    id: 1171,
+    title: "Cross-Platform Mobile Development",
+    tags: ["Mobile Development"],
+    skillLevel: "Intermediate",
+    type: "Tutorial",
+    duration: "8 hours",
+    link: "https://example.com/cross-platform-mobile",
+    description: "Build mobile apps for multiple platforms using React Native or Flutter."
+  },
+
+  // DevOps
+  {
+    id: 1172,
+    title: "DevOps Fundamentals",
+    tags: ["DevOps"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "10 hours",
+    link: "https://example.com/devops-basics",
+    description: "Learn CI/CD, infrastructure as code, and DevOps culture."
+  },
+  {
+    id: 1173,
+    title: "Advanced CI/CD Pipelines",
+    tags: ["DevOps"],
+    skillLevel: "Advanced",
+    type: "Tutorial",
+    duration: "6 hours",
+    link: "https://example.com/cicd-advanced",
+    description: "Build sophisticated deployment pipelines with Jenkins, GitLab CI, or GitHub Actions."
+  },
+  {
+    id: 1174,
+    title: "Infrastructure Monitoring and Logging",
+    tags: ["DevOps"],
+    skillLevel: "Intermediate",
+    type: "Course",
+    duration: "4 hours",
+    link: "https://example.com/monitoring-logging",
+    description: "Implement monitoring, alerting, and logging solutions for production systems."
+  },
+
+  // Blockchain
+  {
+    id: 1175,
+    title: "Blockchain Technology Fundamentals",
+    tags: ["Blockchain"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "8 hours",
+    link: "https://example.com/blockchain-basics",
+    description: "Understand blockchain principles, cryptocurrency, and decentralized systems."
+  },
+  {
+    id: 1176,
+    title: "Smart Contract Development",
+    tags: ["Blockchain"],
+    skillLevel: "Advanced",
+    type: "Tutorial",
+    duration: "10 hours",
+    link: "https://example.com/smart-contracts",
+    description: "Build smart contracts using Solidity and deploy on Ethereum blockchain."
+  },
+  {
+    id: 1177,
+    title: "DeFi and Web3 Development",
+    tags: ["Blockchain"],
+    skillLevel: "Advanced",
+    type: "Course",
+    duration: "12 hours",
+    link: "https://example.com/defi-web3",
+    description: "Create decentralized applications and DeFi protocols."
+  },
+
+  // Internet of Things (IoT)
+  {
+    id: 1178,
+    title: "IoT Systems Design",
+    tags: ["IoT"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "6 hours",
+    link: "https://example.com/iot-design",
+    description: "Design and build IoT systems with sensors, actuators, and connectivity."
+  },
+  {
+    id: 1179,
+    title: "IoT Security and Privacy",
+    tags: ["IoT", "Security"],
+    skillLevel: "Intermediate",
+    type: "Article",
+    duration: "3 hours",
+    link: "https://example.com/iot-security",
+    description: "Implement security measures for IoT devices and networks."
+  },
+  {
+    id: 1180,
+    title: "Industrial IoT Applications",
+    tags: ["IoT"],
+    skillLevel: "Advanced",
+    type: "Tutorial",
+    duration: "5 hours",
+    link: "https://example.com/industrial-iot",
+    description: "Develop IoT solutions for industrial automation and monitoring."
+  },
+
+  // Computer Architecture
+  {
+    id: 1181,
+    title: "Computer Architecture Fundamentals",
+    tags: ["Computer Architecture"],
+    skillLevel: "Beginner",
+    type: "Course",
+    duration: "8 hours",
+    link: "https://example.com/computer-architecture",
+    description: "Learn CPU design, memory hierarchy, and instruction set architecture."
+  },
+  {
+    id: 1182,
+    title: "Parallel Computing Systems",
+    tags: ["Computer Architecture"],
+    skillLevel: "Advanced",
+    type: "Course",
+    duration: "10 hours",
+    link: "https://example.com/parallel-computing",
+    description: "Understand multicore processors, parallel algorithms, and performance optimization."
+  },
+  {
+    id: 1183,
+    title: "Embedded Systems Programming",
+    tags: ["Computer Architecture"],
+    skillLevel: "Intermediate",
+    type: "Tutorial",
+    duration: "6 hours",
+    link: "https://example.com/embedded-systems",
+    description: "Program microcontrollers and embedded devices for real-time applications."
+  },
+
+  // Distributed Systems
+  {
+    id: 1184,
+    title: "Distributed Systems Concepts",
+    tags: ["Distributed Systems"],
+    skillLevel: "Intermediate",
+    type: "Course",
+    duration: "12 hours",
+    link: "https://example.com/distributed-systems",
+    description: "Learn distributed algorithms, consensus, and fault tolerance mechanisms."
+  },
+  {
+    id: 1185,
+    title: "Microservices Architecture",
+    tags: ["Distributed Systems"],
+    skillLevel: "Advanced",
+    type: "Course",
+    duration: "8 hours",
+    link: "https://example.com/microservices",
+    description: "Design and implement microservices-based distributed applications."
+  },
+  {
+    id: 1186,
+    title: "Big Data Processing Systems",
+    tags: ["Distributed Systems"],
+    skillLevel: "Advanced",
+    type: "Tutorial",
+    duration: "6 hours",
+    link: "https://example.com/big-data-systems",
+    description: "Process large datasets using Hadoop, Spark, and distributed computing frameworks."
   }
 ];

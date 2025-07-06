@@ -197,24 +197,6 @@ const Home = () => {
           </Card>
         </div>
 
-        {/* Stats Section */}
-        <div className="text-center bg-gradient-card rounded-lg p-8 shadow-soft">
-          <h3 className="text-2xl font-bold mb-6">Trusted by Learners Worldwide</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <div className="text-3xl font-bold text-primary mb-2">1000+</div>
-              <div className="text-muted-foreground">Learning Resources</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-secondary mb-2">50+</div>
-              <div className="text-muted-foreground">Topics Covered</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-accent mb-2">95%</div>
-              <div className="text-muted-foreground">Match Accuracy</div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
