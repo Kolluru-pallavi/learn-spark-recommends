@@ -299,6 +299,9 @@ const RecommendationEngine = () => {
                                 <Clock className="h-4 w-4" />
                                 {rec.content.duration}
                               </div>
+                              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                🌐 {rec.content.platform}
+                              </div>
                               <div className="text-sm text-primary font-medium">
                                 Match: {Math.round(rec.score * 100)}%
                               </div>
@@ -366,6 +369,20 @@ const RecommendationEngine = () => {
                   ))}
                 </div>
               </div>
+            ) : userPreferences.interests.length > 0 ? (
+              <Card className="bg-gradient-card shadow-soft border-0">
+                <CardContent className="p-12 text-center">
+                  <div className="mb-6">
+                    <div className="p-4 bg-muted/50 rounded-full w-fit mx-auto mb-4">
+                      <Brain className="h-12 w-12 text-muted-foreground" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">No Matching Resources Found</h3>
+                    <p className="text-muted-foreground max-w-md mx-auto">
+                      No matching resources found. Try adjusting your interest or skill level to discover more learning opportunities.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             ) : (
               <Card className="bg-gradient-card shadow-soft border-0">
                 <CardContent className="p-12 text-center">

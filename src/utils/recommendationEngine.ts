@@ -131,7 +131,7 @@ function calculateAdditionalRelevance(
 export function getRecommendations(
   userPreferences: UserPreferences,
   allContent: LearningContent[],
-  topN: number = 5
+  topN: number = 10
 ): RecommendationResult[] {
   if (userPreferences.interests.length === 0) {
     return [];
