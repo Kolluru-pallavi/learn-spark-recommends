@@ -1,8 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
-
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -23,127 +21,10 @@ serve(async (req) => {
   try {
     const { userPreferences }: { userPreferences: UserPreferences } = await req.json();
 
-    if (!openAIApiKey) {
-      console.error('OpenAI API key not found in environment variables');
-      return new Response(JSON.stringify({ 
-        error: 'OpenAI API key not configured',
-        details: 'Please add OPENAI_API_KEY to your Supabase Edge Function secrets'
-      }), {
-        status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
+    console.log('Processing free AI recommendations request for:', userPreferences);
 
-    // Validate API key format
-    if (!openAIApiKey.startsWith('sk-')) {
-      console.error('Invalid OpenAI API key format - should start with sk-');
-      return new Response(JSON.stringify({ 
-        error: 'Invalid OpenAI API key format',
-        details: 'OpenAI API key should start with "sk-". Please check your API key.'
-      }), {
-        status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-
-    console.log('Processing AI recommendations request for:', userPreferences);
-
-    const contentTypeFilter = userPreferences.contentType === 'Any' ? 'any type of content' : userPreferences.contentType.toLowerCase();
-    
-    const prompt = `Generate 10 personalized learning recommendations for a ${userPreferences.skillLevel.toLowerCase()} level learner interested in: ${userPreferences.interests.join(', ')}.
-
-Focus on ${contentTypeFilter} from reputable platforms like Coursera, edX, freeCodeCamp, YouTube, MIT OpenCourseWare, Khan Academy, Udacity, etc.
-
-Return ONLY a valid JSON array with exactly this structure:
-[
-  {
-    "id": 1,
-    "title": "Course Title",
-    "tags": ["tag1", "tag2"],
-    "skillLevel": "Beginner|Intermediate|Advanced",
-    "type": "Video|Article|Course|Tutorial|Book",
-    "duration": "X hours",
-    "link": "https://actual-working-url.com",
-    "description": "Brief description of what the course covers",
-    "platform": "Platform Name"
-  }
-]
-
-Requirements:
-- Use REAL, working URLs from actual educational platforms
-- Match the skill level requested
-- Include relevant tags from the user's interests
-- Provide accurate duration estimates
-- Ensure platform names match the URLs
-- No additional text, just the JSON array`;
-
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-4.1-2025-04-14',
-        messages: [
-          { 
-            role: 'system', 
-            content: 'You are an expert educational content curator. Generate accurate, helpful learning recommendations with real URLs from legitimate educational platforms.' 
-          },
-          { role: 'user', content: prompt }
-        ],
-        temperature: 0.7,
-        max_tokens: 2000,
-      }),
-    });
-
-    const data = await response.json();
-    
-    if (!response.ok) {
-      console.error('OpenAI API Error:', data);
-      throw new Error(`OpenAI API error: ${data.error?.message || 'Unknown error'} (Status: ${response.status})`);
-    }
-
-    console.log('OpenAI API Response received successfully');
-
-    const aiResponse = data.choices[0].message.content;
-    
-    // Parse the JSON response
-    let recommendations;
-    try {
-      console.log('Parsing AI response...');
-      recommendations = JSON.parse(aiResponse);
-    } catch (parseError) {
-      console.error('Failed to parse AI response as JSON:', parseError);
-      console.log('Raw AI response:', aiResponse);
-      
-      // If parsing fails, try to extract JSON from the response
-      const jsonMatch = aiResponse.match(/\[[\s\S]*\]/);
-      if (jsonMatch) {
-        try {
-          recommendations = JSON.parse(jsonMatch[0]);
-          console.log('Successfully extracted JSON from response');
-        } catch (extractError) {
-          console.error('Failed to extract JSON from response:', extractError);
-          throw new Error('Failed to parse AI response as JSON');
-        }
-      } else {
-        throw new Error('No valid JSON found in AI response');
-      }
-    }
-
-    // Validate the structure
-    if (!Array.isArray(recommendations)) {
-      console.error('AI response is not an array:', typeof recommendations);
-      throw new Error('AI response is not an array');
-    }
-
-    if (recommendations.length === 0) {
-      console.warn('AI returned empty recommendations array');
-      throw new Error('No recommendations generated by AI');
-    }
-
-    console.log(`Successfully generated ${recommendations.length} recommendations`);
+    // Generate recommendations using a smart algorithm without API calls
+    const recommendations = generateSmartRecommendations(userPreferences);
 
     // Add match scores for compatibility with existing frontend
     const recommendationsWithScores = recommendations.map((rec: any, index: number) => ({
@@ -157,20 +38,13 @@ Requirements:
       )
     }));
 
-    console.log('Sending successful response with recommendations');
+    console.log(`Successfully generated ${recommendations.length} free recommendations`);
     return new Response(JSON.stringify({ recommendations: recommendationsWithScores }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
 
   } catch (error) {
     console.error('Error in ai-recommendations function:', error);
-    
-    // Log the full error details for debugging
-    console.error('Error details:', {
-      name: error.name,
-      message: error.message,
-      stack: error.stack
-    });
     
     return new Response(JSON.stringify({ 
       error: 'Failed to generate recommendations', 
@@ -182,3 +56,237 @@ Requirements:
     });
   }
 });
+
+// Smart recommendation engine that works without API calls
+function generateSmartRecommendations(userPreferences: UserPreferences) {
+  const { interests, skillLevel, contentType } = userPreferences;
+  
+  // Comprehensive learning resource database
+  const learningResources = [
+    // Programming & Web Development
+    {
+      id: 1,
+      title: "Introduction to Python Programming",
+      tags: ["python", "programming", "basics"],
+      skillLevel: "Beginner",
+      type: "Course",
+      duration: "6 hours",
+      link: "https://www.codecademy.com/learn/learn-python-3",
+      description: "Learn Python fundamentals including syntax, data types, and basic programming concepts",
+      platform: "Codecademy"
+    },
+    {
+      id: 2,
+      title: "JavaScript Basics for Beginners",
+      tags: ["javascript", "web development", "programming"],
+      skillLevel: "Beginner",
+      type: "Course",
+      duration: "8 hours",
+      link: "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/",
+      description: "Master JavaScript fundamentals and DOM manipulation",
+      platform: "freeCodeCamp"
+    },
+    {
+      id: 3,
+      title: "React Complete Guide",
+      tags: ["react", "javascript", "frontend", "web development"],
+      skillLevel: "Intermediate",
+      type: "Course",
+      duration: "12 hours",
+      link: "https://react.dev/learn",
+      description: "Build modern web applications with React hooks and components",
+      platform: "React.dev"
+    },
+    {
+      id: 4,
+      title: "Python Data Science Handbook",
+      tags: ["python", "data science", "analytics", "machine learning"],
+      skillLevel: "Intermediate",
+      type: "Book",
+      duration: "15 hours",
+      link: "https://jakevdp.github.io/PythonDataScienceHandbook/",
+      description: "Essential tools for working with data in Python",
+      platform: "GitHub"
+    },
+    {
+      id: 5,
+      title: "Machine Learning Crash Course",
+      tags: ["machine learning", "tensorflow", "python", "ai"],
+      skillLevel: "Intermediate",
+      type: "Course",
+      duration: "15 hours",
+      link: "https://developers.google.com/machine-learning/crash-course",
+      description: "Learn ML fundamentals with TensorFlow APIs",
+      platform: "Google AI"
+    },
+    {
+      id: 6,
+      title: "Advanced JavaScript Concepts",
+      tags: ["javascript", "advanced", "closures", "async"],
+      skillLevel: "Advanced",
+      type: "Course",
+      duration: "10 hours",
+      link: "https://www.udemy.com/course/advanced-javascript-concepts/",
+      description: "Master closures, prototypes, async/await, and advanced patterns",
+      platform: "Udemy"
+    },
+    {
+      id: 7,
+      title: "CS50 Introduction to Computer Science",
+      tags: ["computer science", "programming", "algorithms"],
+      skillLevel: "Beginner",
+      type: "Course",
+      duration: "90 hours",
+      link: "https://www.edx.org/course/introduction-computer-science-harvardx-cs50x",
+      description: "Harvard's introduction to computer science and programming",
+      platform: "edX"
+    },
+    {
+      id: 8,
+      title: "Node.js Complete Course",
+      tags: ["nodejs", "javascript", "backend", "server"],
+      skillLevel: "Intermediate",
+      type: "Course",
+      duration: "14 hours",
+      link: "https://www.youtube.com/watch?v=fBNz5xF-Kx4",
+      description: "Build scalable server-side applications with Node.js",
+      platform: "YouTube"
+    },
+    {
+      id: 9,
+      title: "Git and GitHub Tutorial",
+      tags: ["git", "github", "version control", "development"],
+      skillLevel: "Beginner",
+      type: "Tutorial",
+      duration: "3 hours",
+      link: "https://www.freecodecamp.org/news/git-and-github-for-beginners/",
+      description: "Master version control with Git and GitHub",
+      platform: "freeCodeCamp"
+    },
+    {
+      id: 10,
+      title: "Full Stack Web Development",
+      tags: ["web development", "fullstack", "html", "css", "javascript"],
+      skillLevel: "Intermediate",
+      type: "Course",
+      duration: "300 hours",
+      link: "https://www.theodinproject.com/",
+      description: "Complete full-stack web development curriculum",
+      platform: "The Odin Project"
+    },
+    // Data Science & Analytics
+    {
+      id: 11,
+      title: "Statistics for Data Science",
+      tags: ["statistics", "data science", "probability"],
+      skillLevel: "Beginner",
+      type: "Course",
+      duration: "8 hours",
+      link: "https://www.khanacademy.org/math/statistics-probability",
+      description: "Essential statistics concepts for data analysis",
+      platform: "Khan Academy"
+    },
+    {
+      id: 12,
+      title: "SQL for Data Analysis",
+      tags: ["sql", "database", "data analysis"],
+      skillLevel: "Beginner",
+      type: "Course",
+      duration: "6 hours",
+      link: "https://www.w3schools.com/sql/",
+      description: "Learn SQL for database queries and data manipulation",
+      platform: "W3Schools"
+    },
+    {
+      id: 13,
+      title: "Deep Learning Specialization",
+      tags: ["deep learning", "neural networks", "tensorflow", "ai"],
+      skillLevel: "Advanced",
+      type: "Course",
+      duration: "120 hours",
+      link: "https://www.coursera.org/specializations/deep-learning",
+      description: "Master deep learning and neural networks",
+      platform: "Coursera"
+    },
+    // Design & UI/UX
+    {
+      id: 14,
+      title: "UI/UX Design Fundamentals",
+      tags: ["design", "ui", "ux", "user experience"],
+      skillLevel: "Beginner",
+      type: "Course",
+      duration: "10 hours",
+      link: "https://www.interaction-design.org/courses",
+      description: "Learn principles of user interface and experience design",
+      platform: "Interaction Design Foundation"
+    },
+    {
+      id: 15,
+      title: "Figma for Designers",
+      tags: ["figma", "design", "prototyping", "ui"],
+      skillLevel: "Beginner",
+      type: "Tutorial",
+      duration: "4 hours",
+      link: "https://www.youtube.com/watch?v=FTFaQWZBqQ8",
+      description: "Master Figma for UI design and prototyping",
+      platform: "YouTube"
+    }
+  ];
+
+  // Smart matching algorithm
+  let scoredResources = learningResources.map(resource => {
+    let score = 0;
+    
+    // Interest matching (highest weight)
+    const interestMatches = interests.filter(interest => 
+      resource.tags.some(tag => 
+        tag.toLowerCase().includes(interest.toLowerCase()) || 
+        interest.toLowerCase().includes(tag.toLowerCase()) ||
+        resource.title.toLowerCase().includes(interest.toLowerCase()) ||
+        resource.description.toLowerCase().includes(interest.toLowerCase())
+      )
+    );
+    score += interestMatches.length * 10;
+    
+    // Skill level matching
+    if (resource.skillLevel === skillLevel) {
+      score += 5;
+    } else if (
+      (skillLevel === 'Intermediate' && resource.skillLevel === 'Beginner') ||
+      (skillLevel === 'Advanced' && resource.skillLevel === 'Intermediate')
+    ) {
+      score += 3; // Adjacent skill levels get partial credit
+    }
+    
+    // Content type matching
+    if (contentType === 'Any' || resource.type === contentType) {
+      score += 3;
+    }
+    
+    // Boost popular/fundamental topics
+    const popularTags = ['javascript', 'python', 'react', 'web development', 'data science'];
+    const hasPopularTag = resource.tags.some(tag => 
+      popularTags.some(popular => tag.toLowerCase().includes(popular))
+    );
+    if (hasPopularTag) score += 2;
+    
+    return { ...resource, matchScore: score };
+  });
+
+  // Filter and sort by relevance
+  scoredResources = scoredResources
+    .filter(resource => resource.matchScore > 0)
+    .sort((a, b) => b.matchScore - a.matchScore)
+    .slice(0, 10); // Top 10 recommendations
+
+  // If no matches, provide general beginner-friendly resources
+  if (scoredResources.length === 0) {
+    scoredResources = learningResources
+      .filter(resource => resource.skillLevel === 'Beginner')
+      .slice(0, 5)
+      .map(resource => ({ ...resource, matchScore: 1 }));
+  }
+
+  // Remove matchScore before returning
+  return scoredResources.map(({ matchScore, ...resource }) => resource);
+}

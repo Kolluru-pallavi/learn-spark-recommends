@@ -88,18 +88,18 @@ const RecommendationEngine = () => {
     setIsLoading(true);
     
     try {
-      // Call AI-powered recommendation service via Supabase Edge Function
+      // Call smart recommendation service via Supabase Edge Function
       const data = await callAIRecommendations(userPreferences);
       
       if (!data?.recommendations) {
-        throw new Error('No recommendations received from AI service');
+        throw new Error('No recommendations received from recommendation service');
       }
       
       setRecommendations(data.recommendations);
       
       toast({
-        title: "AI Recommendations Generated!",
-        description: `Found ${data.recommendations.length} personalized learning resources powered by AI.`,
+        title: "Smart Recommendations Generated!",
+        description: `Found ${data.recommendations.length} personalized learning resources for you.`,
       });
     } catch (error: any) {
       console.error('Error getting AI recommendations:', error);
@@ -107,12 +107,12 @@ const RecommendationEngine = () => {
       // Provide more specific error messages
       let errorMessage = "Failed to generate recommendations. Please try again.";
       
-      if (error.message?.includes('OpenAI API key')) {
-        errorMessage = "OpenAI API key is not configured. Please contact support.";
-      } else if (error.message?.includes('non-2xx status')) {
-        errorMessage = "AI service is temporarily unavailable. Please try again in a moment.";
+      if (error.message?.includes('network') || error.message?.includes('fetch')) {
+        errorMessage = "Network error occurred. Please check your connection and try again.";
+      } else if (error.message?.includes('service') || error.message?.includes('temporarily')) {
+        errorMessage = "Recommendation service is temporarily unavailable. Please try again in a moment.";
       } else if (error.message?.includes('Failed to parse')) {
-        errorMessage = "AI service returned an invalid response. Please try again.";
+        errorMessage = "Service returned an invalid response. Please try again.";
       }
       
       toast({
@@ -155,7 +155,7 @@ const RecommendationEngine = () => {
               <Brain className="h-8 w-8 text-primary-foreground" />
             </div>
             <h1 className="text-4xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-              AI Learning Recommendation Engine
+              Smart Learning Recommendation Engine
             </h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -288,13 +288,13 @@ const RecommendationEngine = () => {
                   {isLoading ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-                      Generating AI Recommendations...
+                      Generating Smart Recommendations...
                     </>
                   ) : (
-                    <>
-                      <Brain className="h-4 w-4 mr-2" />
-                      Get AI Recommendations
-                    </>
+                  <>
+                    <Brain className="h-4 w-4 mr-2" />
+                    Get Smart Recommendations
+                  </>
                   )}
                 </Button>
               </CardContent>
@@ -307,7 +307,7 @@ const RecommendationEngine = () => {
               <div className="space-y-6">
                 <div className="flex items-center gap-2 mb-6">
                   <GraduationCap className="h-6 w-6 text-primary" />
-                  <h2 className="text-2xl font-bold">Your AI-Powered Recommendations</h2>
+                  <h2 className="text-2xl font-bold">Your Smart Recommendations</h2>
                 </div>
                 
                 <div className="grid gap-4">
