@@ -122,11 +122,11 @@ function calculateAdditionalRelevance(
 }
 
 /**
- * Get learning content recommendations based on user preferences
+ * Get learning content recommendations based on user preferences using exact matching
  * @param userPreferences - User's learning preferences
  * @param allContent - All available learning content
  * @param topN - Number of recommendations to return (default: 5)
- * @returns Array of recommended content with scores
+ * @returns Array of recommended content with exact matches only
  */
 export function getRecommendations(
   userPreferences: UserPreferences,
@@ -137,45 +137,59 @@ export function getRecommendations(
     return [];
   }
   
-  // Create corpus for TF-IDF calculation
-  const corpus = allContent.map(content => [
-    ...content.tags.map(tag => tag.toLowerCase()),
-    ...content.title.toLowerCase().split(' '),
-    ...content.description.toLowerCase().split(' ')
-  ]);
+  // Filter content based on exact topic and content type matching
+  const filteredContent = allContent.filter(content => {
+    // Check for exact topic match in tags (case-insensitive)
+    const hasExactTopicMatch = userPreferences.interests.some(interest => 
+      content.tags.some(tag => tag.toLowerCase() === interest.toLowerCase())
+    );
+    
+    // Check content type filter (ignore if "Any" is selected)
+    const matchesContentType = userPreferences.contentType === 'Any' || 
+      content.type === userPreferences.contentType;
+    
+    // Both conditions must be met
+    return hasExactTopicMatch && matchesContentType;
+  });
   
-  // Create user preference vector
-  const userVector = createUserVector(userPreferences.interests);
-  
-  // Calculate recommendations
-  const recommendations: RecommendationResult[] = allContent.map(content => {
-    // Create TF-IDF vector for this content
-    const contentVector = createTFIDFVector(content, userPreferences.interests, corpus);
-    
-    // Calculate cosine similarity
-    const similarity = cosineSimilarity(userVector, contentVector);
-    
-    // Calculate additional relevance
-    const additionalRelevance = calculateAdditionalRelevance(content, userPreferences);
-    
-    // Combine scores (weighted average)
-    const finalScore = (similarity * 0.7) + (additionalRelevance * 0.3);
-    
-    // Find matched tags
+  // Create recommendations with exact matches
+  const recommendations: RecommendationResult[] = filteredContent.map(content => {
+    // Find exactly matched tags
     const matchedTags = content.tags.filter(tag => 
       userPreferences.interests.some(interest => 
         interest.toLowerCase() === tag.toLowerCase()
       )
     );
     
+    // Calculate relevance score based on exact matches and preferences
+    let score = 0;
+    
+    // Base score for having exact matches
+    score += matchedTags.length * 0.4;
+    
+    // Skill level match bonus
+    if (content.skillLevel === userPreferences.skillLevel) {
+      score += 0.3;
+    } else if (
+      (userPreferences.skillLevel === 'Intermediate' && content.skillLevel === 'Beginner') ||
+      (userPreferences.skillLevel === 'Advanced' && content.skillLevel === 'Intermediate')
+    ) {
+      score += 0.1; // Partial match for progressive difficulty
+    }
+    
+    // Content type match bonus (if not "Any")
+    if (userPreferences.contentType !== 'Any' && content.type === userPreferences.contentType) {
+      score += 0.3;
+    }
+    
     return {
       content,
-      score: finalScore,
+      score: Math.min(score, 1), // Cap at 1
       matchedTags
     };
   });
   
-  // Sort by score and return top N
+  // Sort by score (descending) and return top N
   return recommendations
     .sort((a, b) => b.score - a.score)
     .slice(0, topN);
